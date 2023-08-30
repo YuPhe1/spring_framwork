@@ -15,5 +15,11 @@
     <a href="/req2?q1=안녕&q2=10">query string</a>
     <br>
 
+    <!-- form 태그로 파라미터 보내기 -->
+    <form action="/req3">
+        p1: <input type="text" name="p1"><br>
+        p2: <input type="text" name="p2"><br>
+        <input type="submit" value="전송">
+    </form>
 </body>
 </html>

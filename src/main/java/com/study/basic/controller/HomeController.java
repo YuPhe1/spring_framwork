@@ -29,9 +29,10 @@ public class HomeController {
         System.out.println("q1 = " + q1 + ", q2 = " + q2);
         return "welcome";
     }
-    @GetMapping("/test")
-    public String test(){
-        return "test/test";
+    @GetMapping("/req3")
+    public String req3(@RequestParam("p1") String p1, @RequestParam("p2") String p2){
+        System.out.println("p1 = " + p1 + ", p2 = " + p2);
+        return "welcome";
     }
 
 }
