@@ -1,10 +1,7 @@
 package com.study.basic.controller;
 
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 @Controller
 public class HomeController {
@@ -29,7 +26,7 @@ public class HomeController {
         System.out.println("q1 = " + q1 + ", q2 = " + q2);
         return "welcome";
     }
-    @GetMapping("/req3")
+    @PostMapping("/req3")
     public String req3(@RequestParam("p1") String p1, @RequestParam("p2") String p2){
         System.out.println("p1 = " + p1 + ", p2 = " + p2);
         return "welcome";

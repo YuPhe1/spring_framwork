@@ -16,7 +16,7 @@
     <br>
 
     <!-- form 태그로 파라미터 보내기 -->
-    <form action="/req3">
+    <form action="/req3" method="post">
         p1: <input type="text" name="p1"><br>
         p2: <input type="text" name="p2"><br>
         <input type="submit" value="전송">
