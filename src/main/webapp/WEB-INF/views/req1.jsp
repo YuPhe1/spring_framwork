@@ -1,10 +1,9 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <title>테스트</title>
+    <title>req1</title>
 </head>
 <body>
-    <h1>확인용</h1>
-    <a href="/">돌아가기</a>
+    <h1>req1.jsp 입니다!</h1>
 </body>
 </html>
