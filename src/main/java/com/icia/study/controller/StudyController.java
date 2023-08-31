@@ -1,9 +1,12 @@
 package com.icia.study.controller;
 
+import com.icia.study.dto.StudyDTO;
 import com.icia.study.service.StudyService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
@@ -25,4 +28,9 @@ public class StudyController {
         return "index";
     }
 
+    @PostMapping("/req3")
+    public String req3(@ModelAttribute StudyDTO studyDTO){
+        studyService.req3(studyDTO);
+        return "index";
+    }
 }

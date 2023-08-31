@@ -1,5 +1,6 @@
 package com.icia.study.service;
 
+import com.icia.study.dto.StudyDTO;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -12,5 +13,9 @@ public class StudyService {
     // req2 메서드에서 q1, q2 값 출력
     public void req2(String q1, String q2){
         System.out.println("q1 = " + q1 + ", q2 = " + q2);
+    }
+
+    public void req3(StudyDTO studyDTO) {
+        System.out.println("studyDTO = " + studyDTO);
     }
 }
