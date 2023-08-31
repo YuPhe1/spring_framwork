@@ -5,6 +5,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Controller
 public class ResultController {
 
@@ -24,7 +27,15 @@ public class ResultController {
         return "result2";
     }
     @GetMapping("/result3")
-    public String result3(){
+    public String result3(Model model){
+        List<DemoDTO> demoDTOList = new ArrayList<>();
+        for(int i = 0; i <= 10; i++){
+            DemoDTO demoDTO = new DemoDTO();
+            demoDTO.setParam1("param1값 " + i);
+            demoDTO.setParam2("param2값 " + i);
+            demoDTOList.add(demoDTO);
+        }
+        model.addAttribute("demoList",demoDTOList);
         return "result3";
     }
 }
