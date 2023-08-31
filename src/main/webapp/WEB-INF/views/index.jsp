@@ -10,10 +10,14 @@
     <!-- 아래 form에서 입력한 값을 DTO에 담아
         서비스 클래스의 req3() 메서드에서 DTO 값을 출력 -->
     <form action="/req3" method="post">
-    p1 : <input type="text" name="p1"> <br>
-    p2 : <input type="text" name="p2"> <br>
-    p3 : <input type="text" name="p3" oninput="isNumber(this)"> <br>
+        p1 : <input type="text" name="p1"> <br>
+        p2 : <input type="text" name="p2"> <br>
+        p3 : <input type="text" name="p3" oninput="isNumber(this)"> <br>
     <input type="submit" value="제출">
+    <hr>
+    <a href="/req4">req4</a>
+    <hr>
+    <a href="/req5">req5</a>
     </form>
 </body>
 <script>
