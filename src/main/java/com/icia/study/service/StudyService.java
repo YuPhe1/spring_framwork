@@ -30,12 +30,7 @@ public class StudyService {
      * index.jsp에서 req4 주소를 요청하면
      * 서비스 클래스의 req4 메서드가 리턴한 객체 데이터 값을 req4.jsp에 출력함.
      *
-     * req5 메서드
-     * StudyDTO가 담긴 리스트 객체를 리턴한다.
-     * index.jsp에서 req5 주소를 요청하면
-     * 서비스 클래스의 req5 메서드가 리턴한 객체 데이터 값을 req5.jsp에 출력함.
      */
-
     public StudyDTO req4() {
         StudyDTO studyDTO = new StudyDTO();
         studyDTO.setP1("DTOp1");
@@ -44,6 +39,12 @@ public class StudyService {
         return studyDTO;
     }
 
+    /**
+     * req5 메서드
+     * StudyDTO가 담긴 리스트 객체를 리턴한다.
+     * index.jsp에서 req5 주소를 요청하면
+     * 서비스 클래스의 req5 메서드가 리턴한 객체 데이터 값을 req5.jsp에 출력함.
+     */
     public List<StudyDTO> req5() {
         List<StudyDTO> studyDTOList = new ArrayList<>();
         for(int i = 1; i <= 10; i++){
