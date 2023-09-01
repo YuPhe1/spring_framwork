@@ -19,4 +19,8 @@ public class DemoDBService {
     public List<DemoDTO> findAll() {
         return demoDBRepository.findAll();
     }
+
+    public DemoDTO findById(Long id) {
+        return demoDBRepository.findById(id);
+    }
 }

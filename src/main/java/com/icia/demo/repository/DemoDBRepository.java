@@ -18,4 +18,8 @@ public class DemoDBRepository {
     public List<DemoDTO> findAll() {
         return sql.selectList("Demo.findAll");
     }
+
+    public DemoDTO findById(Long id) {
+        return sql.selectOne("Demo.findById", id);
+    }
 }

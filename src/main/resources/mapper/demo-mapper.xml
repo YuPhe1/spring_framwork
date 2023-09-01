@@ -11,6 +11,9 @@
     <select id="findAll" resultType="com.icia.demo.dto.DemoDTO">
         select * from demo_table
     </select>
+    <select id="findById" parameterType="Long" resultType="com.icia.demo.dto.DemoDTO">
+        select * from demo_table where id=#{id}
+    </select>
 </mapper>
 
 

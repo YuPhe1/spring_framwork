@@ -13,7 +13,9 @@
         </tr>
         <c:forEach items="${demoList}" var="demo">
         <tr>
-            <td>${demo.id}</td>
+            <td>
+                <a href="/find?id=${demo.id}">${demo.id}</a>
+            </td>
             <td>${demo.name}</td>
             <td>${demo.age}</td>
         </tr>
