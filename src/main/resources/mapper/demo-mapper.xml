@@ -8,7 +8,7 @@
         insert into demo_table(name, age)
         values(#{name}, #{age})
     </insert>
-    <select id="list" resultType="com.icia.demo.dto.DemoDTO">
+    <select id="findAll" resultType="com.icia.demo.dto.DemoDTO">
         select * from demo_table
     </select>
 </mapper>
