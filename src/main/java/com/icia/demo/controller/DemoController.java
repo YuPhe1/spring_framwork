@@ -17,7 +17,7 @@ public class DemoController {
     @Autowired
     private DemoService demoService;
     @GetMapping("/req1")
-    public String req1(@RequestParam String name, @RequestParam int age, Model model){
+    public String req1(@RequestParam("name") String name, @RequestParam("age") int age, Model model){
         DemoDTO demoDTO = demoService.req1(name, age);
         model.addAttribute("demo", demoDTO);
         return "demo1";
