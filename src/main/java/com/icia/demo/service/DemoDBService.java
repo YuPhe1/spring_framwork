@@ -5,6 +5,8 @@ import com.icia.demo.repository.DemoDBRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class DemoDBService {
 
@@ -12,5 +14,9 @@ public class DemoDBService {
     private DemoDBRepository demoDBRepository;
     public void reqdb1(DemoDTO demoDTO) {
         demoDBRepository.reqdb1(demoDTO);
+    }
+
+    public List<DemoDTO> findAll() {
+        return demoDBRepository.findAll();
     }
 }
