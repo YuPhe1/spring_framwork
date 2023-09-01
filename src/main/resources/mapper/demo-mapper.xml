@@ -9,7 +9,7 @@
         values(#{name}, #{age})
     </insert>
     <select id="list" resultType="com.icia.demo.dto.DemoDTO">
-        select name, age from demo_table
+        select * from demo_table
     </select>
 </mapper>
 
