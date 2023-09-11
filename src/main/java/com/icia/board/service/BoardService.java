@@ -20,4 +20,12 @@ public class BoardService {
     public void save(BoardDTO boardDTO) {
         boardRepository.save(boardDTO);
     }
+
+    public void upHits(Long id) {
+        boardRepository.upHits(id);
+    }
+
+    public BoardDTO findById(Long id) {
+        return boardRepository.findById(id);
+    }
 }

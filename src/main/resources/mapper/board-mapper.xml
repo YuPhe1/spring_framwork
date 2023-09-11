@@ -10,4 +10,10 @@
         insert into board_table(boardWriter, boardPass, boardTitle, boardContents)
         values (#{boardWriter}, #{boardPass}, #{boardTitle}, #{boardContents})
     </insert>
+    <update id="upHits" parameterType="Long">
+        update board_table set boardHits=boardHits+1 where id = #{id}
+    </update>
+    <select id="findById" parameterType="Long" resultType="board">
+        select * from board_table where id = #{id}
+    </select>
 </mapper>
