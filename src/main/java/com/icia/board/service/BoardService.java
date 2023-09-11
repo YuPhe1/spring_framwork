@@ -16,4 +16,8 @@ public class BoardService {
     public List<BoardDTO> findAll() {
         return boardRepository.findAll();
     }
+
+    public void save(BoardDTO boardDTO) {
+        boardRepository.save(boardDTO);
+    }
 }

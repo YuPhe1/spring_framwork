@@ -8,5 +8,5 @@
     console.log(date.getFullYear());
     const footer = document.getElementById("footer");
     const footer1 = document.querySelector("#footer");
-    footer.innerHTML = "<p>&copy;  " + date.getFullYear() + "&nbsp; codingrecipe All rights reserved. </p>";
+    footer.innerHTML = "<p class='text-center'>&copy;  " + date.getFullYear() + "&nbsp; codingrecipe All rights reserved. </p>";
 </script>
