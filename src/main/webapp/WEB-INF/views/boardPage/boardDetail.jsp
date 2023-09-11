@@ -17,7 +17,7 @@
             <p class="card-text">${board.boardContents}</p>
             <h6 class="card-subtitle mb-2 text-body-secondary text-end">작성일: ${board.createdAt}</h6>
             <div class="text-center">
-                <button class="btn btn-primary px-3">수정</button>
+                <button class="btn btn-primary px-3" onclick="update_fn('${board.id}')">수정</button>
                 <button class="btn btn-danger px-3">삭제</button>
             </div>
         </div>
@@ -25,5 +25,10 @@
             <%@include file="../component/footer.jsp" %>
         </div>
     </div>
+<script>
+    const update_fn = (id) => {
+        location.href = "/board/update?id="+id;
+    }
+</script>
 </body>
 </html>
