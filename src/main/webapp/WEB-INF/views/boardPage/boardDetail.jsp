@@ -18,7 +18,7 @@
             <h6 class="card-subtitle mb-2 text-body-secondary text-end">작성일: ${board.createdAt}</h6>
             <div class="text-center">
                 <button class="btn btn-primary px-3" onclick="update_fn('${board.id}')">수정</button>
-                <button class="btn btn-danger px-3">삭제</button>
+                <button class="btn btn-danger px-3" onclick="delete_fn('${board.id}')">삭제</button>
             </div>
         </div>
         <div class="col-10">
@@ -28,6 +28,9 @@
 <script>
     const update_fn = (id) => {
         location.href = "/board/update?id="+id;
+    }
+    const delete_fn = (id) => {
+        location.href = "/board/delete?id="+id;
     }
 </script>
 </body>

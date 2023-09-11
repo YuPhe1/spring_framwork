@@ -12,9 +12,6 @@
         <%@include file="../component/header.jsp" %>
         <%@include file="../component/nav.jsp" %>
         <h3 class="text-center mb-3">게시판</h3>
-        <div class="text-end">
-            <button class="btn btn-primary" onclick="board_save()">글작성</button>
-        </div>
     </div>
 </div>
 <div class="row justify-content-center">
@@ -38,6 +35,9 @@
                     </tr>
                 </c:forEach>
             </table>
+        </div>
+        <div class="text-end">
+            <button class="btn btn-primary" onclick="board_save()">글작성</button>
         </div>
         <%@include file="../component/footer.jsp" %>
     </div>

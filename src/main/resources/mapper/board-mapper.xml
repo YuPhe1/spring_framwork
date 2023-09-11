@@ -20,4 +20,7 @@
         update board_table set boardWriter=#{boardWriter}, boardTitle=#{boardTitle}, boardContents=#{boardContents}
         where id = #{id}
     </update>
+    <delete id="delete" parameterType="Long">
+        delete from board_table where id=#{id}
+    </delete>
 </mapper>
