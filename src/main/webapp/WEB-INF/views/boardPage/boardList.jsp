@@ -48,7 +48,7 @@
     }
 
     const board_detail = (id) => {
-        location.href = "/board/detail?id="+id;
+        location.href = "/board?id="+id;
     }
 </script>
 </body>

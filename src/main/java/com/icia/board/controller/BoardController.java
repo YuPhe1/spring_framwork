@@ -15,7 +15,7 @@ public class BoardController {
     @Autowired
     private BoardService boardService;
 
-    @GetMapping("/list")
+    @GetMapping("/")
     public String boardList(Model model){
         List<BoardDTO> boardDTOList = boardService.findAll();
         model.addAttribute("boardList", boardDTOList);
@@ -30,10 +30,10 @@ public class BoardController {
     @PostMapping("/save")
     public String save(@ModelAttribute BoardDTO boardDTO){
         boardService.save(boardDTO);
-        return "redirect:/board/list";
+        return "redirect:/board/";
     }
 
-    @GetMapping("/detail")
+    @GetMapping
     public String detail(Model model, @RequestParam("id") Long id){
         boardService.upHits(id);
         BoardDTO boardDTO = boardService.findById(id);
@@ -64,6 +64,6 @@ public class BoardController {
     @PostMapping("/delete")
     public String delete(@ModelAttribute("id") Long id){
         boardService.delete(id);
-        return "redirect:/board/list";
+        return "redirect:/board/";
     }
 }
