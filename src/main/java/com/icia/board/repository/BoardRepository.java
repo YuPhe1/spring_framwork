@@ -1,6 +1,7 @@
 package com.icia.board.repository;
 
 import com.icia.board.dto.BoardDTO;
+import com.icia.board.dto.BoardFileDTO;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -18,8 +19,9 @@ public class BoardRepository {
         return sql.selectList("Board.list");
     }
 
-    public void save(BoardDTO boardDTO) {
+    public BoardDTO save(BoardDTO boardDTO) {
         sql.insert("Board.save", boardDTO);
+        return boardDTO;
     }
 
     public void upHits(Long id) {
@@ -39,7 +41,14 @@ public class BoardRepository {
     }
 
     public List<BoardDTO> findBySearch(Map<String, String> map) {
-        System.out.println(map.get("searchType") + " "+ map.get("q"));
         return sql.selectList("Board.search", map);
+    }
+
+    public int getPage(Map<String, String> map) {
+        return sql.selectOne("Board.paging", map);
+    }
+
+    public void saveFile(BoardFileDTO boardFileDTO) {
+        sql.insert("Board.saveFile", boardFileDTO);
     }
 }

@@ -6,9 +6,13 @@
     <select id="list" resultType="board">
         select id, boardWriter, boardTitle, date_format(createdAt, "%y-%m-%d %H:%i%s") as createdAt, boardHits from board_table
     </select>
-    <insert id="save" parameterType="board">
-        insert into board_table(boardWriter, boardPass, boardTitle, boardContents)
-        values (#{boardWriter}, #{boardPass}, #{boardTitle}, #{boardContents})
+    <insert id="save" parameterType="board" useGeneratedKeys="true" keyProperty="id">
+        insert into board_table(boardWriter, boardPass, boardTitle, boardContents, fileAttached)
+        values (#{boardWriter}, #{boardPass}, #{boardTitle}, #{boardContents}, #{fileAttached})
+    </insert>
+    <insert id="saveFile" parameterType="boardFile">
+        insert into board_file_table(originalFileName, storedFileName, boardId)
+        values (#{originalFileName}, #{storedFileName}, #{boardId})
     </insert>
     <update id="upHits" parameterType="Long">
         update board_table set boardHits=boardHits+1 where id = #{id}
@@ -24,6 +28,9 @@
         delete from board_table where id=#{id}
     </delete>
     <select id="search" parameterType="map" resultType="board">
-        select * from board_table where ${searchType} Like CONCAT('%',#{q},'%')
+        select * from board_table where ${searchType} Like CONCAT('%',#{q},'%') limit ${page},5
+    </select>
+    <select id="paging" parameterType="map" resultType="Integer">
+        select count(*) as count from board_table where ${searchType} Like CONCAT('%',#{q},'%')
     </select>
 </mapper>

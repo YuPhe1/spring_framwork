@@ -11,7 +11,7 @@
     <%@include file="../component/nav.jsp" %>
   </div>
   <div class="col-10 card p-3">
-    <form name="boardSave" action="/board/save" method="post">
+    <form name="boardSave" action="/board/save" method="post" enctype="multipart/form-data">
       <div class="input-group mb-3">
         <span class="input-group-text">글제목</span>
         <input type="text" class="form-control" name="boardTitle">
@@ -23,7 +23,10 @@
         <input type="password" class="form-control" name="boardPass">
       </div>
       <div class="input-group mb-3">
-        <textarea class="form-control" size="5" name="boardContents"></textarea>
+        <textarea class="form-control" cols="5" name="boardContents"></textarea>
+      </div>
+      <div class="input-group mb-3">
+        <input type="file" name="boardFile">
       </div>
       <div class="text-center">
       <button class="btn btn-primary">저장</button>

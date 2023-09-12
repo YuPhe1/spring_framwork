@@ -31,47 +31,30 @@
             </div>
         </div>
         <div id="list" class="m-3">
-            <table class="table">
-                <tr class="table-dark">
-                    <th>Id</th>
-                    <th>글제목</th>
-                    <th>작성자</th>
-                    <th>조회수</th>
-                    <th>작성일</th>
-                </tr>
-                <c:forEach items="${boardList}" var="board">
-                    <tr class="table-hover" onclick="board_detail('${board.id}')">
-                        <td>${board.id}</td>
-                        <td>${board.boardTitle}</td>
-                        <td>${board.boardWriter}</td>
-                        <td>${board.boardHits}</td>
-                        <td>${board.createdAt}</td>
-                    </tr>
-                </c:forEach>
-            </table>
         </div>
         <div class="text-end">
             <button class="btn btn-primary" onclick="board_save()">글작성</button>
         </div>
+        <div id="page" class="text-center"> </div>
         <%@include file="../component/footer.jsp" %>
     </div>
 </div>
 <script>
+    let searchType = document.search.searchType.value;
+    let q = "";
+    let page = 1;
     const board_save = () => {
         location.href = "/board/save";
     }
-
     const board_detail = (id) => {
         location.href = "/board?id="+id;
     }
-    document.search.addEventListener("submit", (e) => {
-        e.preventDefault();
-        const searchType = document.search.searchType.value;
-        const q = document.search.q.value;
+    const get_list = () => {
+        document.getElementById(page).style.fontWeight = "bold";
         $.ajax({
             type:"get",
             url:"/board/search",
-            data:{"searchType":searchType, "q":q},
+            data:{"searchType":searchType, "q":q, "page":page},
             success:function (res){
                 const resultArea = document.getElementById("list");
                 if(res.length > 0){
@@ -93,7 +76,81 @@
                 }
             }
         })
+    }
+
+    const get_page = (resultPage) => {
+      page = resultPage;
+        get_paging();
+    }
+    const down_page_ten = () => {
+        page = ((page/10)-1)*10 + 1;
+        get_paging();
+    }
+    const down_page_one = () => {
+        page = page - 1;
+        get_paging();
+    }
+    const up_page_ten = () => {
+        page = ((page/10)+1)*10 + 1;
+        get_paging();
+    }
+    const up_page_one = () => {
+        page = page + 1;
+        get_paging();
+    }
+    const get_paging = () => {
+        $.ajax({
+            type:"get",
+            url:"/board/getPaging",
+            data:{"searchType":searchType, "q":q},
+            success:function (res){
+                const resultArea = document.getElementById("page");
+                let result = "";
+                if(res != 0){
+                    let maxPage = Math.ceil(res/5);
+                    console.log((page / 10).toFixed() == (2 / 10).toFixed());
+                    console.log(res);
+                    if((page / 10).toFixed() != 0){
+                        result = "<span onclick=down_page_ten()><<</span>&nbsp;"
+                    }
+                    if(page != 1){
+                        result += "<span onclick=down_page_one()><</span>&nbsp;"
+                    }
+                    if((page / 10).toFixed() == (maxPage / 10).toFixed()){
+                        for(let i = 1; i <= maxPage % 10; i++){
+                            let resultPage = (page / 10).toFixed() * 10 + i;
+                            result += "<span onclick=get_page("+resultPage+") id="+resultPage+">"+resultPage+"&nbsp</span>"
+                        }
+                    } else {
+                        for(let i = 1; i <= 10; i++){
+                            let resultPage = (maxPage / 10).toFixed() * 10 + i;
+                            result += "<span onclick=get_page("+resultPage+") id="+resultPage+">"+resultPage+"&nbsp</span> "
+                        }
+                    }
+                    if(page != maxPage) {
+                        result += "<span onclick=up_page_one()>></span> "
+                    }
+                    if((page / 10).toFixed() != (maxPage / 10).toFixed()){
+                        result += "<span onclick=up_page_ten()>>></span> "
+                    }
+                    resultArea.innerHTML = result;
+                } else {
+                    resultArea.innerHTML = "";
+                }
+            }
+        })
+        get_list();
+    }
+
+    document.search.addEventListener("submit", (e) => {
+        e.preventDefault();
+        page = 1;
+        searchType = document.search.searchType.value;
+        q = document.search.q.value;
+        get_paging();
     })
+    get_list();
+    get_paging();
 </script>
 </body>
 </html>

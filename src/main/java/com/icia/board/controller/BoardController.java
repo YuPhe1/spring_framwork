@@ -1,15 +1,19 @@
 package com.icia.board.controller;
 
 import com.icia.board.dto.BoardDTO;
+import com.icia.board.dto.BoardFileDTO;
 import com.icia.board.service.BoardService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.File;
+import java.io.IOException;
 import java.net.HttpCookie;
 import java.util.List;
 
@@ -32,7 +36,7 @@ public class BoardController {
     }
 
     @PostMapping("/save")
-    public String save(@ModelAttribute BoardDTO boardDTO){
+    public String save(@ModelAttribute BoardDTO boardDTO) throws IOException {
         boardService.save(boardDTO);
         return "redirect:/board/";
     }
@@ -85,8 +89,14 @@ public class BoardController {
     }
 
     @GetMapping("/search")
-    public @ResponseBody List<BoardDTO> search(@RequestParam("searchType") String searchType, @RequestParam("q") String q){
-        List<BoardDTO> boardDTOList = boardService.findBySearch(searchType, q);
+    public @ResponseBody List<BoardDTO> search(@RequestParam("searchType") String searchType, @RequestParam("q") String q, @RequestParam("page") int page){
+        List<BoardDTO> boardDTOList = boardService.findBySearch(searchType, q, page);
         return boardDTOList;
+    }
+
+    @GetMapping("/getPaging")
+    public @ResponseBody int getPage(@RequestParam("searchType") String searchType, @RequestParam("q") String q){
+        int maxPage = boardService.getPage(searchType, q);
+        return maxPage;
     }
 }
