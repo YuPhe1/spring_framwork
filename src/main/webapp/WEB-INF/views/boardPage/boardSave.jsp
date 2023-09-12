@@ -26,7 +26,7 @@
         <textarea class="form-control" cols="5" name="boardContents"></textarea>
       </div>
       <div class="input-group mb-3">
-        <input type="file" name="boardFile">
+        <input type="file" class="form-control" name="boardFile">
       </div>
       <div class="text-center">
       <button class="btn btn-primary">저장</button>

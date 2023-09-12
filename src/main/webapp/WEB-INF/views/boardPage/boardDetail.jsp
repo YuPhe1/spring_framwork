@@ -15,6 +15,9 @@
             <hr>
             <h6 class="card-subtitle mb-2 text-body-secondary text-end">작성자: ${board.boardWriter} 조회수: ${board.boardHits}</h6>
             <p class="card-text">${board.boardContents}</p>
+            <c:if test="${board.fileAttached == 1}">
+                <img src="${pageContext.request.contextPath}/upload/${boardFile.storedFileName}">
+            </c:if>
             <h6 class="card-subtitle mb-2 text-body-secondary text-end">작성일: ${board.createdAt}</h6>
             <div class="text-center">
                 <button class="btn btn-primary px-3" onclick="update_fn('${board.id}')">수정</button>

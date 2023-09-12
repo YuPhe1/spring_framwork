@@ -33,4 +33,7 @@
     <select id="paging" parameterType="map" resultType="Integer">
         select count(*) as count from board_table where ${searchType} Like CONCAT('%',#{q},'%')
     </select>
+    <select id="findFile" parameterType="Long" resultType="boardFile">
+        select * from board_file_table where boardId = #{boardId}
+    </select>
 </mapper>

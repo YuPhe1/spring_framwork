@@ -58,6 +58,10 @@ public class BoardController {
             response.addCookie(cookie);
         }
         BoardDTO boardDTO = boardService.findById(id);
+        if(boardDTO.getFileAttached() == 1){
+            BoardFileDTO boardFileDTO = boardService.findFile(id);
+            model.addAttribute("boardFile", boardFileDTO);
+        }
         model.addAttribute("board", boardDTO);
         return "boardPage/boardDetail";
     }

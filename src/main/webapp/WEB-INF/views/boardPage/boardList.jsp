@@ -5,6 +5,11 @@
     <title>게시글 목록</title>
     <link rel="stylesheet" href="/resources/css/bootstrap.min.css">
     <script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
+    <style>
+        .page{
+            font-size: 20px;
+        }
+    </style>
 </head>
 <body>
 <div class="row justify-content-center">
@@ -83,7 +88,7 @@
         get_paging();
     }
     const down_page_ten = () => {
-        page = ((page/10)-1)*10 + 1;
+        page = (Math.floor(page/10)-1)*10 + 1;
         get_paging();
     }
     const down_page_one = () => {
@@ -91,7 +96,8 @@
         get_paging();
     }
     const up_page_ten = () => {
-        page = ((page/10)+1)*10 + 1;
+        page = (Math.floor(page/10)+1) * 10 + 1;
+        console.log(page)
         get_paging();
     }
     const up_page_one = () => {
@@ -108,28 +114,28 @@
                 let result = "";
                 if(res != 0){
                     let maxPage = Math.ceil(res/5);
-                    if((page / 10).toFixed() != 0){
-                        result = "<span onclick=down_page_ten()><<</span>&nbsp;"
+                    if(Math.floor((page-1) / 10) != 0){
+                        result = "<span class='page' onclick=down_page_ten()><<&nbsp;</span>"
                     }
                     if(page != 1){
-                        result += "<span onclick=down_page_one()><</span>&nbsp;"
+                        result += "<span class='page' onclick=down_page_one()><&nbsp;</span>"
                     }
-                    if((page / 10).toFixed() == (maxPage / 10).toFixed()){
+                    if(Math.floor((page-1) / 10) == Math.floor(maxPage / 10)){
                         for(let i = 1; i <= maxPage % 10; i++){
-                            let resultPage = (page / 10).toFixed() * 10 + i;
-                            result += "<span onclick=get_page("+resultPage+") id="+resultPage+">"+resultPage+"&nbsp</span>"
+                            let resultPage = Math.floor((page-1) / 10) * 10 + i;
+                            result += "<span class='page' onclick=get_page("+resultPage+") id="+resultPage+">"+resultPage+"&nbsp</span>"
                         }
                     } else {
                         for(let i = 1; i <= 10; i++){
-                            let resultPage = (maxPage / 10).toFixed() * 10 + i;
-                            result += "<span onclick=get_page("+resultPage+") id="+resultPage+">"+resultPage+"&nbsp</span> "
+                            let resultPage = Math.floor((page-1) / 10) * 10 + i;
+                            result += "<span class='page' onclick=get_page("+resultPage+") id="+resultPage+">"+resultPage+"&nbsp</span> "
                         }
                     }
                     if(page != maxPage) {
-                        result += "<span onclick=up_page_one()>></span> "
+                        result += "<span class='page' onclick=up_page_one()>>&nbsp;</span>"
                     }
-                    if((page / 10).toFixed() != (maxPage / 10).toFixed()){
-                        result += "<span onclick=up_page_ten()>>></span> "
+                    if(Math.floor((page-1) / 10) != Math.floor(maxPage / 10)){
+                        result += "<span class='page' onclick=up_page_ten()>>></span> "
                     }
                     resultArea.innerHTML = result;
                     get_list();

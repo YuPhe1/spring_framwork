@@ -81,4 +81,8 @@ public class BoardService {
         map.put("q", q);
         return boardRepository.getPage(map);
     }
+
+    public BoardFileDTO findFile(Long boardId) {
+        return boardRepository.findFile(boardId);
+    }
 }
