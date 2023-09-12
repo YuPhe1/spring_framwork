@@ -108,8 +108,6 @@
                 let result = "";
                 if(res != 0){
                     let maxPage = Math.ceil(res/5);
-                    console.log((page / 10).toFixed() == (2 / 10).toFixed());
-                    console.log(res);
                     if((page / 10).toFixed() != 0){
                         result = "<span onclick=down_page_ten()><<</span>&nbsp;"
                     }

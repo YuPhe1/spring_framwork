@@ -28,7 +28,7 @@
         delete from board_table where id=#{id}
     </delete>
     <select id="search" parameterType="map" resultType="board">
-        select * from board_table where ${searchType} Like CONCAT('%',#{q},'%') limit ${page},5
+        select * from board_table where ${searchType} Like CONCAT('%',#{q},'%') order by id desc limit ${page},5
     </select>
     <select id="paging" parameterType="map" resultType="Integer">
         select count(*) as count from board_table where ${searchType} Like CONCAT('%',#{q},'%')
