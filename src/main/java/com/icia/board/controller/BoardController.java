@@ -7,6 +7,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.net.HttpCookie;
 import java.util.List;
 
 @Controller
@@ -34,8 +38,21 @@ public class BoardController {
     }
 
     @GetMapping
-    public String detail(Model model, @RequestParam("id") Long id){
-        boardService.upHits(id);
+    public String detail(Model model, @RequestParam("id") Long id, HttpServletResponse response, HttpServletRequest request){
+        Cookie[] cookies = request.getCookies();
+        boolean isHit = false;
+        for(Cookie cookie : cookies){
+            if(cookie.getName().equals("hit"+id)){
+                isHit = true;
+            }
+        }
+        if(!isHit) {
+            boardService.upHits(id);
+            Cookie cookie = new Cookie("hit"+id, "1");
+            cookie.setPath("/");
+            cookie.setMaxAge(5*60);
+            response.addCookie(cookie);
+        }
         BoardDTO boardDTO = boardService.findById(id);
         model.addAttribute("board", boardDTO);
         return "boardPage/boardDetail";
