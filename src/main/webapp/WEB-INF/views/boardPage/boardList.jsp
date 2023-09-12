@@ -134,12 +134,12 @@
                         result += "<span onclick=up_page_ten()>>></span> "
                     }
                     resultArea.innerHTML = result;
+                    get_list();
                 } else {
                     resultArea.innerHTML = "";
                 }
             }
         })
-        get_list();
     }
 
     document.search.addEventListener("submit", (e) => {
@@ -149,7 +149,6 @@
         q = document.search.q.value;
         get_paging();
     })
-    get_list();
     get_paging();
 </script>
 </body>
