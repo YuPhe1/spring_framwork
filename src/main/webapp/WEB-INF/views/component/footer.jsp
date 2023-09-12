@@ -4,8 +4,6 @@
 </div>
 <script>
     const date = new Date();
-    console.log(date);
-    console.log(date.getFullYear());
     const footer = document.getElementById("footer");
     const footer1 = document.querySelector("#footer");
     footer.innerHTML = "<p class='text-center'>&copy;  " + date.getFullYear() + "&nbsp; codingrecipe All rights reserved. </p>";

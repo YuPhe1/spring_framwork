@@ -5,7 +5,9 @@ import com.icia.board.repository.BoardRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class BoardService {
@@ -35,5 +37,12 @@ public class BoardService {
 
     public void delete(Long id) {
         boardRepository.delete(id);
+    }
+
+    public List<BoardDTO> findBySearch(String searchType, String q) {
+        Map<String, String> map = new HashMap<>();
+        map.put("searchType", searchType);
+        map.put("q", q);
+        return boardRepository.findBySearch(map);
     }
 }

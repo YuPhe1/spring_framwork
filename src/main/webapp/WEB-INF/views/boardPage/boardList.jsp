@@ -16,6 +16,20 @@
 </div>
 <div class="row justify-content-center">
     <div class="col-10">
+        <div class="row justify-content-end">
+            <div class="col-4">
+                <form name="search">
+                    <div class="input-group mb-3">
+                        <select class="form-select" name="searchType">
+                            <option value="boardTitle" selected>글제목</option>
+                            <option value="boardWriter">작성자</option>
+                        </select>
+                        <input name="q" class="form-control">&nbsp;
+                        <button class="btn btn-primary">검색</button>
+                    </div>
+                </form>
+            </div>
+        </div>
         <div id="list" class="m-3">
             <table class="table">
                 <tr class="table-dark">
@@ -50,6 +64,36 @@
     const board_detail = (id) => {
         location.href = "/board?id="+id;
     }
+    document.search.addEventListener("submit", (e) => {
+        e.preventDefault();
+        const searchType = document.search.searchType.value;
+        const q = document.search.q.value;
+        $.ajax({
+            type:"get",
+            url:"/board/search",
+            data:{"searchType":searchType, "q":q},
+            success:function (res){
+                const resultArea = document.getElementById("list");
+                if(res.length > 0){
+                    let result = "<table class='table'> <tr class='table-dark'> <th>Id</th>";
+                    result += "<th>글제목</th><th>작성자</th><th>조회수</th><th>작성일</th> </tr>";
+                    for(let i in res){
+                        result += "<tr class='table-hover' onclick=board_detail("+res[i].id+")>";
+                        result += "<td>" + res[i].id + "</td>";
+                        result += "<td>" + res[i].boardTitle + "</td>";
+                        result += "<td>" + res[i].boardWriter + "</td>";
+                        result += "<td>" + res[i].boardHits + "</td>";
+                        result += "<td>" + res[i].createdAt + "</td>";
+                        result += "</tr>";
+                    }
+                    result += "</table>";
+                    resultArea.innerHTML = result;
+                } else {
+                    resultArea.innerHTML = "<h4 class='text-center'>검색결과가 없습니다.</h4>";
+                }
+            }
+        })
+    })
 </script>
 </body>
 </html>

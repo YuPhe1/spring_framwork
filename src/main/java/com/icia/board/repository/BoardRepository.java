@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Map;
 
 @Repository
 public class BoardRepository {
@@ -35,5 +36,10 @@ public class BoardRepository {
 
     public void delete(Long id) {
         sql.delete("Board.delete", id);
+    }
+
+    public List<BoardDTO> findBySearch(Map<String, String> map) {
+        System.out.println(map.get("searchType") + " "+ map.get("q"));
+        return sql.selectList("Board.search", map);
     }
 }

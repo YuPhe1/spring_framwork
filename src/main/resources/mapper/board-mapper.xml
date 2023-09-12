@@ -23,4 +23,7 @@
     <delete id="delete" parameterType="Long">
         delete from board_table where id=#{id}
     </delete>
+    <select id="search" parameterType="map" resultType="board">
+        select * from board_table where ${searchType} Like CONCAT('%',#{q},'%')
+    </select>
 </mapper>
