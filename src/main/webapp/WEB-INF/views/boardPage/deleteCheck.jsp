@@ -42,7 +42,7 @@
     })
 
     const cancel = () => {
-        location.href = "/board/list";
+        location.href = "/board/";
     }
 </script>
 </body>

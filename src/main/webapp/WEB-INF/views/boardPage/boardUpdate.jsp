@@ -61,7 +61,7 @@
   });
 
   const save_cancel = () => {
-    location.href = "/board/list";
+    location.href = "/board/";
   }
 </script>
 </body>

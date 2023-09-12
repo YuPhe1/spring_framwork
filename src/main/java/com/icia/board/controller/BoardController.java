@@ -86,9 +86,7 @@ public class BoardController {
 
     @GetMapping("/search")
     public @ResponseBody List<BoardDTO> search(@RequestParam("searchType") String searchType, @RequestParam("q") String q){
-        System.out.println("searchType = " + searchType + ", q = " + q);
         List<BoardDTO> boardDTOList = boardService.findBySearch(searchType, q);
-        System.out.println("boardDTOList = " + boardDTOList);
         return boardDTOList;
     }
 }

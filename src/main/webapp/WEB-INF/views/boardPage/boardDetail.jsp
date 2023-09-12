@@ -18,6 +18,7 @@
             <h6 class="card-subtitle mb-2 text-body-secondary text-end">작성일: ${board.createdAt}</h6>
             <div class="text-center">
                 <button class="btn btn-primary px-3" onclick="update_fn('${board.id}')">수정</button>
+                <button class="btn btn-secondary px-3" onclick="list_fn()">목록</button>
                 <button class="btn btn-danger px-3" onclick="delete_fn('${board.id}')">삭제</button>
             </div>
         </div>
@@ -31,6 +32,9 @@
     }
     const delete_fn = (id) => {
         location.href = "/board/delete?id="+id;
+    }
+    const list_fn = () => {
+        location.href = "/board/";
     }
 </script>
 </body>
