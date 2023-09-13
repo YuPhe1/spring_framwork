@@ -116,7 +116,7 @@
         location.href = "/board/save";
     }
     const board_detail = (id) => {
-        location.href = "/board?id=" + id;
+        location.href = "/board?id=" + id + "&page=" + ${paging.page};
     }
     // 내가 해본 방법
     // const get_list = () => {
