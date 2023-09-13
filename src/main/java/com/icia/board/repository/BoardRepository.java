@@ -40,10 +40,6 @@ public class BoardRepository {
         sql.delete("Board.delete", id);
     }
 
-    public List<BoardDTO> findBySearch(Map<String, String> map) {
-        return sql.selectList("Board.search", map);
-    }
-
     public int getPage(Map<String, String> map) {
         return sql.selectOne("Board.paging", map);
     }
@@ -62,5 +58,9 @@ public class BoardRepository {
 
     public int boardCount() {
         return sql.selectOne("Board.count");
+    }
+
+    public List<BoardDTO> searchList(Map<String, String> searchParam) {
+        return sql.selectList("Board.search", searchParam);
     }
 }

@@ -71,14 +71,6 @@ public class BoardService {
         boardRepository.delete(id);
     }
 
-    public List<BoardDTO> findBySearch(String searchType, String q, int page) {
-        Map<String, String> map = new HashMap<>();
-        map.put("searchType", searchType);
-        map.put("q", q);
-        map.put("page", Integer.toString((page - 1) * 5));
-        return boardRepository.findBySearch(map);
-    }
-
     public int getPage(String searchType, String q) {
         Map<String, String> map = new HashMap<>();
         map.put("searchType", searchType);
@@ -120,5 +112,12 @@ public class BoardService {
         pageDTO.setEndPage(endPage);
         pageDTO.setStartPage(startPage);
         return pageDTO;
+    }
+
+    public List<BoardDTO> searchList(String type, String q) {
+        Map<String, String> searchParam = new HashMap<>();
+        searchParam.put("type", type);
+        searchParam.put("q", q);
+        return boardRepository.searchList(searchParam);
     }
 }

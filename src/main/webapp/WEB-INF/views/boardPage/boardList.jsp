@@ -22,7 +22,7 @@
     <div class="col-10">
         <div class="row justify-content-end">
             <div class="col-4">
-                <form name="search">
+                <form action="/board/search" name="search">
                     <div class="input-group mb-3">
                         <select class="form-select" name="searchType">
                             <option value="boardTitle" selected>글제목</option>
@@ -211,13 +211,6 @@
     //     })
     // }
     //
-    document.search.addEventListener("submit", (e) => {
-        e.preventDefault();
-        //     page = 1;
-        searchType = document.search.searchType.value;
-        q = document.search.q.value;
-        //     get_paging();
-    })
     // get_paging();
 </script>
 </body>
