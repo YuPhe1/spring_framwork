@@ -40,7 +40,27 @@
             </div>
         </div>
         <div id="comment-list-area">
-
+            <c:choose>
+                <c:when test="${commentList == null}">
+                    <h4>작성된 댓글이 없습니다.</h4>
+                </c:when>
+                <c:otherwise>
+                    <table class="table" id="comment-list">
+                    <tr class="table-dark">
+                        <th>작성자</th>
+                        <th>내용</th>
+                        <th>작성시간</th>
+                    </tr>
+                    <c:forEach items="${commentList}" var="comment">
+                        <tr>
+                            <td>${comment.commentWriter}</td>
+                            <td>${comment.commentContents}</td>
+                            <td>${comment.createdAt}</td>
+                        </tr>
+                    </c:forEach>
+                    </table>
+                </c:otherwise>
+            </c:choose>
         </div>
     </div>
     <div class="col-10">
@@ -48,14 +68,22 @@
     </div>
 </div>
 <script>
-    const get_content = () => {
+    const comment_write = () => {
+        const commentWriter = document.getElementById("comment-writer").value;
+        const commentContents = document.querySelector("#comment-contents").value;
         const boardId = '${board.id}';
         const result = document.querySelector("#comment-list-area");
         $.ajax({
-            type: "get",
-            url: "/comment",
-            data: {boardId: boardId},
+            type: "post",
+            url: "/comment/save",
+            data: {
+                commentWriter: commentWriter,
+                commentContents: commentContents,
+                boardId: boardId
+            },
             success: function (res) {
+                document.getElementById("comment-writer").value = "";
+                document.querySelector("#comment-contents").value = "";
                 let output = "<table class=\"table\" id=\"comment-list\">\n" +
                     "    <tr class=\"table-dark\">\n" +
                     "        <th>작성자</th>\n" +
@@ -71,28 +99,6 @@
                 }
                 output += "</table>";
                 result.innerHTML = output;
-            }, error: function () {
-                console.log("댓글 불러오기 실패")
-            }
-        })
-    }
-    const comment_write = () => {
-        const commentWriter = document.getElementById("comment-writer").value;
-        const commentContents = document.querySelector("#comment-contents").value;
-        const boardId = '${board.id}';
-        const result = document.querySelector("#comment-list-area");
-        $.ajax({
-            type: "post",
-            url: "/comment/save",
-            data: {
-                commentWriter: commentWriter,
-                commentContents: commentContents,
-                boardId: boardId
-            },
-            success: function () {
-                document.getElementById("comment-writer").value = "";
-                document.querySelector("#comment-contents").value = "";
-                get_content();
             },
             error: function () {
                 console.log("댓글 작성 실패")

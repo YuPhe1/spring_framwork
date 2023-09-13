@@ -20,12 +20,7 @@ public class CommentController {
     @PostMapping("/save")
     public ResponseEntity save(@ModelAttribute CommentDTO commentDTO){
         commentService.save(commentDTO);
-        return new ResponseEntity<>(HttpStatus.OK);
-    }
-
-    @GetMapping
-    public ResponseEntity save(@RequestParam("boardId") Long boardId){
-        List<CommentDTO> commentDTOList = commentService.findAll(boardId);
+        List<CommentDTO> commentDTOList = commentService.findAll(commentDTO.getBoardId());
         return new ResponseEntity<>(commentDTOList, HttpStatus.OK);
     }
 }
