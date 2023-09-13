@@ -111,7 +111,8 @@
         location.href = "/board/delete?id=" + id;
     }
     const list_fn = () => {
-        location.href = "/board/list";
+        const page = '${page}';
+        location.href = "/board/list?page=" + page;
     }
 
     get_content();

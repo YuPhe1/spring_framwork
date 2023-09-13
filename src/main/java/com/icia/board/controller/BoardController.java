@@ -48,7 +48,7 @@ public class BoardController {
     }
 
     @GetMapping
-    public String detail(Model model, @RequestParam("id") Long id, HttpServletResponse response, HttpServletRequest request){
+    public String detail(Model model, @RequestParam("id") Long id, @RequestParam(value = "page", required = false, defaultValue = "1") int page, HttpServletResponse response, HttpServletRequest request){
         Cookie[] cookies = request.getCookies();
         boolean isHit = false;
         for(Cookie cookie : cookies){
@@ -75,6 +75,7 @@ public class BoardController {
         } else {
             model.addAttribute("commentList", commentDTOList);
         }
+        model.addAttribute("page", page);
         return "boardPage/boardDetail";
     }
 
