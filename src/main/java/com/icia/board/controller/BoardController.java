@@ -3,6 +3,7 @@ package com.icia.board.controller;
 import com.icia.board.dto.BoardDTO;
 import com.icia.board.dto.BoardFileDTO;
 import com.icia.board.dto.CommentDTO;
+import com.icia.board.dto.PageDTO;
 import com.icia.board.service.BoardService;
 import com.icia.board.service.CommentService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,10 +27,12 @@ public class BoardController {
     private BoardService boardService;
     @Autowired
     private CommentService commentService;
-    @GetMapping("/")
-    public String boardList(Model model){
-        List<BoardDTO> boardDTOList = boardService.findAll();
+    @GetMapping("/list")
+    public String findAll(@RequestParam(value = "page", required = false, defaultValue = "1") int page, Model model){
+        List<BoardDTO> boardDTOList = boardService.pagingList(page);
         model.addAttribute("boardList", boardDTOList);
+        PageDTO pageDTO =boardService.pageNumber(page);
+        model.addAttribute("paging", pageDTO);
         return "boardPage/boardList";
     }
 
@@ -41,7 +44,7 @@ public class BoardController {
     @PostMapping("/save")
     public String save(@ModelAttribute BoardDTO boardDTO) throws IOException {
         boardService.save(boardDTO);
-        return "redirect:/board/";
+        return "redirect:/board/list";
     }
 
     @GetMapping
@@ -98,7 +101,7 @@ public class BoardController {
     @PostMapping("/delete")
     public String delete(@ModelAttribute("id") Long id){
         boardService.delete(id);
-        return "redirect:/board/";
+        return "redirect:/board/list";
     }
 
     @GetMapping("/search")

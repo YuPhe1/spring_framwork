@@ -16,7 +16,7 @@ public class BoardRepository {
     private SqlSessionTemplate sql;
 
     public List<BoardDTO> findAll() {
-        return sql.selectList("Board.list");
+        return sql.selectList("Board.findAll");
     }
 
     public BoardDTO save(BoardDTO boardDTO) {
@@ -54,5 +54,13 @@ public class BoardRepository {
 
     public List<BoardFileDTO> findFile(Long boardId) {
         return sql.selectList("Board.findFile", boardId);
+    }
+
+    public List<BoardDTO> pagingList(Map<String, Integer> pageParams) {
+        return sql.selectList("Board.pagingList", pageParams);
+    }
+
+    public int boardCount() {
+        return sql.selectOne("Board.count");
     }
 }
