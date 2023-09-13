@@ -44,9 +44,9 @@
                     <th>작성일</th>
                 </tr>
                 <c:forEach items="${boardList}" var="board">
-                    <tr class="table-hover">
+                    <tr onclick="board_detail('${board.id}')" class="table-hover">
                         <td>${board.id}</td>
-                        <td><a href="/board?id=${board.id}&page=${paging.page}">${board.boardTitle}</a></td>
+                        <td>${board.boardTitle}</td>
                         <td>${board.boardWriter}</td>
                         <td>${board.boardHits}</td>
                         <td>${board.createdAt}</td>
