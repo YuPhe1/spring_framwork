@@ -59,8 +59,8 @@ public class BoardController {
         }
         BoardDTO boardDTO = boardService.findById(id);
         if(boardDTO.getFileAttached() == 1){
-            BoardFileDTO boardFileDTO = boardService.findFile(id);
-            model.addAttribute("boardFile", boardFileDTO);
+            List<BoardFileDTO> boardFileDTOList = boardService.findFile(id);
+            model.addAttribute("boardFileList", boardFileDTOList);
         }
         model.addAttribute("board", boardDTO);
         return "boardPage/boardDetail";

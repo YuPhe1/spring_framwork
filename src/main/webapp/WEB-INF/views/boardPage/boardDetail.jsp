@@ -16,7 +16,9 @@
             <h6 class="card-subtitle mb-2 text-body-secondary text-end">작성자: ${board.boardWriter} 조회수: ${board.boardHits}</h6>
             <p class="card-text">${board.boardContents}</p>
             <c:if test="${board.fileAttached == 1}">
-                <img src="${pageContext.request.contextPath}/upload/${boardFile.storedFileName}">
+                <c:forEach items="${boardFileList}" var="boardFile">
+                    <img src="${pageContext.request.contextPath}/upload/${boardFile.storedFileName}" alt="" width="100" height="100">
+                </c:forEach>
             </c:if>
             <h6 class="card-subtitle mb-2 text-body-secondary text-end">작성일: ${board.createdAt}</h6>
             <div class="text-center">
