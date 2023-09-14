@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
 @Controller
@@ -36,6 +37,22 @@ public class MemberController {
             return new ResponseEntity<>(HttpStatus.OK);
         else
             return new ResponseEntity<>(HttpStatus.CONFLICT);
+    }
+
+    @GetMapping("/login")
+    public String login(){
+        return "member/memberLogin";
+    }
+
+    @PostMapping("/login")
+    public ResponseEntity login(@ModelAttribute MemberDTO memberDTO, HttpSession session){
+        boolean result = memberService.login(memberDTO);
+        if(result){
+            session.setAttribute("loginEmail", memberDTO.getMemberEmail());
+            return new ResponseEntity<>(HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.CONFLICT);
+        }
     }
 
 }

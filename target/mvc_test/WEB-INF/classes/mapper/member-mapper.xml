@@ -14,4 +14,7 @@
     <select id="findByEmail" parameterType="String" resultType="member">
         select * from new_member_table where memberEmail=#{email}
     </select>
+    <select id="login" parameterType="member" resultType="member">
+        select * from new_member_table where memberEmail=#{memberEmail} and memberPassword=#{memberPassword}
+    </select>
 </mapper>
