@@ -51,10 +51,6 @@ public class MemberRepository {
         return sql.selectOne("Member.findById", id);
     }
 
-    public void deleteProfile(Long id) {
-        sql.delete("Member.deleteProfile", id);
-    }
-
     public void delete(Long id) {
         sql.delete("Member.delete", id);
     }

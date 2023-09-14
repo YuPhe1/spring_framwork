@@ -105,6 +105,7 @@ public class MemberController {
     public String delete(@RequestParam("id") Long id){
         MemberDTO memberDTO = memberService.findById(id);
         if(memberDTO.getProfileAttached() == 1){
+            // 폴더에 저장되 있는 파일 삭제
             memberService.deleteProfile(id);
         }
         memberService.delete(id);
