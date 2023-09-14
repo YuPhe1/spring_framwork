@@ -25,7 +25,6 @@ public class MemberController {
 
     @PostMapping("/save")
     public String save(@ModelAttribute MemberDTO memberDTO) throws IOException {
-        System.out.println("memberDTO = " + memberDTO);
         memberService.save(memberDTO);
         return "index";
     }

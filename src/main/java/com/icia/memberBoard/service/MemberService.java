@@ -42,7 +42,7 @@ public class MemberService {
             memberProfileDTO.setStoredFileName(storedFileName);
             memberProfileDTO.setMemberId(saveMember.getId());
             // 파일 저장용 폴더에 파일 저장 처리
-            String savePath = "D:\\spring_img\\" + storedFileName;
+            String savePath = "D:\\member_profile\\" + storedFileName;
             profile.transferTo(new File(savePath));
             memberRepository.saveFile(memberProfileDTO);
 
