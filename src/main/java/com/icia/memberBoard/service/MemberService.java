@@ -102,4 +102,21 @@ public class MemberService {
 
         }
     }
+
+    public MemberDTO findById(Long id) {
+        return memberRepository.findById(id);
+    }
+
+    public void deleteProfile(Long id) {
+        MemberProfileDTO dto = memberRepository.findProfile(id);
+        memberRepository.deleteProfile(id);
+        File file = new File("D:\\member_profile\\" + dto.getStoredFileName());
+        if(file.exists()){
+            file.delete();
+        }
+    }
+
+    public void delete(Long id) {
+        memberRepository.delete(id);
+    }
 }

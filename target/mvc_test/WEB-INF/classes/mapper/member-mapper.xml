@@ -29,4 +29,13 @@
     <update id="profileUpdate" parameterType="memberProfile">
         update member_profile_table set originalFileName=#{originalFileName}, storedFileName=#{storedFileName} where id=#{id}
     </update>
+    <select id="findById" parameterType="Long" resultType="member">
+        select * from new_member_table where id=#{id}
+    </select>
+    <delete id="deleteProfile" parameterType="Long">
+        delete from member_profile_table where memberId=#{id}
+    </delete>
+    <delete id="delete" parameterType="Long">
+        delete from new_member_table where id=#{id}
+    </delete>
 </mapper>

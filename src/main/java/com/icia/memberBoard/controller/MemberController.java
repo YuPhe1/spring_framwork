@@ -100,4 +100,14 @@ public class MemberController {
         memberService.update(memberDTO);
         return "redirect:/member/detail";
     }
+
+    @GetMapping("/delete")
+    public String delete(@RequestParam("id") Long id){
+        MemberDTO memberDTO = memberService.findById(id);
+        if(memberDTO.getProfileAttached() == 1){
+            memberService.deleteProfile(id);
+        }
+        memberService.delete(id);
+        return "redirect:/member/list";
+    }
 }
