@@ -8,6 +8,9 @@
 <h2>홈페이지</h2>
 <a href="/member/save">회원가입</a>
 <span id="login-area"></span>
+<c:if test="${sessionScope.loginEmail == 'admin'}">
+    <a href="/member/list">회원목록</a>
+</c:if>
 <br>
 loginEmail: ${sessionScope.loginEmail}<br>
 loginName: ${sessionScope.loginName}
