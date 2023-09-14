@@ -38,4 +38,12 @@ public class MemberRepository {
     public MemberProfileDTO findProfile(Long id) {
         return sql.selectOne("Member.findProfile", id);
     }
+
+    public void update(MemberDTO memberDTO) {
+        sql.update("Member.update", memberDTO);
+    }
+
+    public void updateFile(MemberProfileDTO memberProfileDTO) {
+        sql.update("Member.profileUpdate", memberProfileDTO);
+    }
 }

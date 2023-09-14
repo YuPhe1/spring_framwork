@@ -94,4 +94,10 @@ public class MemberController {
         }
         return "member/memberUpdate";
     }
+
+    @PostMapping("/update")
+    public String update(@ModelAttribute MemberDTO memberDTO) throws Exception{
+        memberService.update(memberDTO);
+        return "redirect:/member/detail";
+    }
 }

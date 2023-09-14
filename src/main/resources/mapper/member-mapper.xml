@@ -23,4 +23,10 @@
     <select id="findProfile" parameterType="Long" resultType="memberProfile">
         select * from member_profile_table where memberId=#{id}
     </select>
+    <update id="update" parameterType="member">
+        update new_member_table set memberName=#{memberName}, memberMobile=#{memberMobile} where id=#{id}
+    </update>
+    <update id="profileUpdate" parameterType="memberProfile">
+        update member_profile_table set originalFileName=#{originalFileName}, storedFileName=#{storedFileName} where id=#{id}
+    </update>
 </mapper>
