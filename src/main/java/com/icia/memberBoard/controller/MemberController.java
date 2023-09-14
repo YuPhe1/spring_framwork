@@ -69,4 +69,14 @@ public class MemberController {
         model.addAttribute("memberList", memberDTOList);
         return "member/memberList";
     }
+
+    @GetMapping("/detail")
+    public String findByEmail(@RequestParam("memberEmail") String email, Model model){
+        MemberDTO memberDTO = memberService.findByEmail(email);
+        model.addAttribute("member", memberDTO);
+        if(memberDTO.getProfileAttached() == 1){
+
+        }
+        return "member/memberDetail";
+    }
 }

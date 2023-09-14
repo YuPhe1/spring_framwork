@@ -18,10 +18,11 @@ loginName: ${sessionScope.loginName}
 <script>
     const loginArea = document.getElementById("login-area");
     const loginEmail = '${sessionScope.loginEmail}';
+    const loginName = '${sessionScope.loginName}';
     if (loginEmail.length == 0) {
         loginArea.innerHTML = "<a href='/member/login'>로그인</a>";
     } else {
-        loginArea.innerHTML = "<a href='/member/logout'>로그아웃</a>";
+        loginArea.innerHTML = "<a href='/member/logout'>로그아웃</a> " + "<a href='/member/detail?memberEmail=${sessionScope.loginEmail}'>${sessionScope.loginName}님</a>";
     }
 </script>
 </html>
