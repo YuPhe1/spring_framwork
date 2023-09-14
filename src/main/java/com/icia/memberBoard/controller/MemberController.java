@@ -72,7 +72,8 @@ public class MemberController {
     }
 
     @GetMapping("/detail")
-    public String findByEmail(@RequestParam("memberEmail") String email, Model model){
+    public String findByEmail(HttpSession session, Model model){
+        String email = (String) session.getAttribute("loginEmail");
         MemberDTO memberDTO = memberService.findByEmail(email);
         model.addAttribute("member", memberDTO);
         if(memberDTO.getProfileAttached() == 1){
@@ -80,5 +81,17 @@ public class MemberController {
             model.addAttribute("memberProfile", memberProfileDTO);
         }
         return "member/memberDetail";
+    }
+
+    @GetMapping("/update")
+    public String update(HttpSession session, Model model){
+        String email = (String) session.getAttribute("loginEmail");
+        MemberDTO memberDTO = memberService.findByEmail(email);
+        model.addAttribute("member", memberDTO);
+        if(memberDTO.getProfileAttached() == 1){
+            MemberProfileDTO memberProfileDTO = memberService.findProfile(memberDTO.getId());
+            model.addAttribute("memberProfile", memberProfileDTO);
+        }
+        return "member/memberUpdate";
     }
 }

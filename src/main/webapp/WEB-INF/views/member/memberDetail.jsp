@@ -19,14 +19,14 @@
     휴대폰: ${member.memberMobile}
 </p>
 <button onclick="home()">홈</button>
-<button onclick="member_update_fn('${member.id}')">수정</button>
+<button onclick="member_update_fn()">수정</button>
 </body>
 <script>
     const home = () => {
         location.href = "/";
     }
-    const member_update_fn = (id) => {
-        location.href = "/member/update?id=" + id;
+    const member_update_fn = () => {
+        location.href = "/member/update";
     }
 
 </script>
