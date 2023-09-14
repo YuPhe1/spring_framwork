@@ -60,4 +60,8 @@ public class MemberService {
     public List<MemberDTO> findByAll() {
         return memberRepository.findByAll();
     }
+
+    public MemberProfileDTO findProfile(Long id) {
+        return memberRepository.findProfile(id);
+    }
 }

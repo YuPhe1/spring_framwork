@@ -1,6 +1,7 @@
 package com.icia.memberBoard.controller;
 
 import com.icia.memberBoard.dto.MemberDTO;
+import com.icia.memberBoard.dto.MemberProfileDTO;
 import com.icia.memberBoard.service.MemberService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -75,7 +76,8 @@ public class MemberController {
         MemberDTO memberDTO = memberService.findByEmail(email);
         model.addAttribute("member", memberDTO);
         if(memberDTO.getProfileAttached() == 1){
-
+            MemberProfileDTO memberProfileDTO = memberService.findProfile(memberDTO.getId());
+            model.addAttribute("memberProfile", memberProfileDTO);
         }
         return "member/memberDetail";
     }

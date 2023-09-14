@@ -20,4 +20,7 @@
     <select id="findByAll" resultType="member">
         select * from new_member_table
     </select>
+    <select id="findProfile" parameterType="Long" resultType="memberProfile">
+        select * from member_profile_table where memberId=#{id}
+    </select>
 </mapper>
