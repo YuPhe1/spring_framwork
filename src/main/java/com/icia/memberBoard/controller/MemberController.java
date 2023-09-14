@@ -46,18 +46,14 @@ public class MemberController {
 
     @PostMapping("/login")
     public ResponseEntity login(@ModelAttribute MemberDTO memberDTO, HttpSession session){
-        boolean result = memberService.login(memberDTO);
-        if(result){
-            session.setAttribute("loginEmail", memberDTO.getMemberEmail());
+        MemberDTO dto = memberService.login(memberDTO);
+        if(dto != null){
+            session.setAttribute("loginEmail", dto.getMemberEmail());
+            session.setAttribute("loginName", dto.getMemberName());
             return new ResponseEntity<>(HttpStatus.OK);
         } else {
             return new ResponseEntity<>(HttpStatus.CONFLICT);
         }
     }
 
-    @GetMapping("/logout")
-    public String logout(HttpSession session) {
-        session.removeAttribute("loginEmail");
-        return "redirect:/";
-    }
 }

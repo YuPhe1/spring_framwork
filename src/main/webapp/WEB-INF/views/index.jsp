@@ -9,7 +9,8 @@
 <a href="/member/save">회원가입</a>
 <span id="login-area"></span>
 <br>
-${sessionScope.loginEmail}
+loginEmail: ${sessionScope.loginEmail}<br>
+loginName: ${sessionScope.loginName}
 </body>
 <script>
     const loginArea = document.getElementById("login-area");
