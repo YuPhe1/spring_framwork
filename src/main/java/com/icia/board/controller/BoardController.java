@@ -106,9 +106,14 @@ public class BoardController {
     }
 
     @GetMapping("/search")
-    public String search(@RequestParam("searchType") String type, @RequestParam("q") String q, Model model){
-        List<BoardDTO> boardDTOList = boardService.searchList(type, q);
+    public String search(@RequestParam("searchType") String type, @RequestParam("q") String q,
+                         @RequestParam(value = "page", required = false, defaultValue = "1") int page, Model model){
+        List<BoardDTO> boardDTOList = boardService.searchList(type, q, page);
         model.addAttribute("boardList", boardDTOList);
+
+        PageDTO pageDTO = boardService.searchPageNumber(q, type, page);
+        model.addAttribute("paging", pageDTO);
+
         return "boardPage/boardList";
     }
 
