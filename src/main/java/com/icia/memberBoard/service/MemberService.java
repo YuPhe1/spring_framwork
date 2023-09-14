@@ -48,4 +48,8 @@ public class MemberService {
 
         }
     }
+
+    public MemberDTO findByEmail(String email) {
+        return memberRepository.findByEmail(email);
+    }
 }

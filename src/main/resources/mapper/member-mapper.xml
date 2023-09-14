@@ -11,4 +11,7 @@
         insert into member_profile_table(originalFileName, storedFileName, memberId)
         values (#{originalFileName}, #{storedFileName}, #{memberId})
     </insert>
+    <select id="findByEmail" parameterType="String" resultType="member">
+        select * from new_member_table where memberEmail=#{email}
+    </select>
 </mapper>
