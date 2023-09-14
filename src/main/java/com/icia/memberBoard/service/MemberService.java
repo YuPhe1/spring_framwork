@@ -56,4 +56,8 @@ public class MemberService {
     public MemberDTO login(MemberDTO memberDTO) {
         return memberRepository.login(memberDTO);
     }
+
+    public List<MemberDTO> findByAll() {
+        return memberRepository.findByAll();
+    }
 }
