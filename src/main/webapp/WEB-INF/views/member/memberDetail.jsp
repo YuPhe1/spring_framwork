@@ -10,13 +10,24 @@
          height="100">
 </c:if>
 <c:if test="${member.profileAttached == 0}">
-    <img src="https://via.placeholder.com/120x174" alt="" width="100" height="100">
+    <img src="https://via.placeholder.com/100x100" alt="" width="100" height="100">
 </c:if>
 <p>
-    ${member.id}<br>
-    ${member.memberEmail}<br>
-    ${member.memberName}<br>
-    ${member.memberMobile}
+    id: ${member.id}<br>
+    이메일: ${member.memberEmail}<br>
+    이름: ${member.memberName}<br>
+    휴대폰: ${member.memberMobile}
 </p>
+<button onclick="home()">홈</button>
+<button onclick="member_update_fn('${member.id}')">수정</button>
 </body>
+<script>
+    const home = () => {
+        location.href = "/";
+    }
+    const member_update_fn = (id) => {
+        location.href = "/member/update?id=" + id;
+    }
+
+</script>
 </html>
