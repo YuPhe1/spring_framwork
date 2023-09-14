@@ -22,7 +22,7 @@
     <div class="col-10">
         <div class="row justify-content-end">
             <div class="col-4">
-                <form action="/board/search" name="search">
+                <form action="/board/list">
                     <div class="input-group mb-3">
                         <select class="form-select" name="searchType">
                             <option value="boardTitle" selected>글제목</option>
@@ -44,9 +44,9 @@
                     <th>작성일</th>
                 </tr>
                 <c:forEach items="${boardList}" var="board">
-                    <tr onclick="board_detail('${board.id}')" class="table-hover">
+                    <tr>
                         <td>${board.id}</td>
-                        <td>${board.boardTitle}</td>
+                        <td><a href="/board?id=${board.id}&page=${paging.page}&type=${type}&q=${q}">${board.boardTitle}</a></td>
                         <td>${board.boardWriter}</td>
                         <td>${board.boardHits}</td>
                         <td>${board.createdAt}</td>
@@ -69,7 +69,7 @@
                     <%-- 1페이지가 아닌 경우에는 [이전]을 클릭하면 현재 페이지보다 1 작은 페이지 요청 --%>
                     <c:otherwise>
                         <li class="page-item">
-                            <a class="page-link" href="/board/list?page=${paging.page-1}">[이전]</a>
+                            <a class="page-link" href="/board/list?page=${paging.page-1}&type=${type}&q=${q}">[이전]</a>
                         </li>
                     </c:otherwise>
                 </c:choose>
@@ -86,7 +86,7 @@
 
                         <c:otherwise>
                             <li class="page-item">
-                                <a class="page-link" href="/board/list?page=${i}">${i}</a>
+                                <a class="page-link" href="/board/list?page=${i}&type=${type}&q=${q}">${i}</a>
                             </li>
                         </c:otherwise>
                     </c:choose>
@@ -100,7 +100,7 @@
                     </c:when>
                     <c:otherwise>
                         <li class="page-item">
-                            <a class="page-link" href="/board/list?page=${paging.page+1}">[다음]</a>
+                            <a class="page-link" href="/board/list?page=${paging.page+1}&type=${type}&q=${q}">[다음]</a>
                         </li>
                     </c:otherwise>
                 </c:choose>
@@ -116,7 +116,11 @@
         location.href = "/board/save";
     }
     const board_detail = (id) => {
-        location.href = "/board?id=" + id + "&page=" + ${paging.page};
+        const page = ${paging.page};
+        const type = ${type};
+        const q = ${q};
+        location.href = "/board?id=" + id + "&page=" + page
+            + "&type="+ type + "&q" + q;
     }
     // 내가 해본 방법
     // const get_list = () => {

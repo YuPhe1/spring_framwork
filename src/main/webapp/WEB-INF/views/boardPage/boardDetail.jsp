@@ -112,7 +112,9 @@
     }
     const list_fn = () => {
         const page = '${page}';
-        location.href = "/board/list?page=" + page;
+        const type = '${type}';
+        const q = '${q}';
+        location.href = "/board/list?page=" + page + "&type=" + type + "&q=" + q;
     }
 
     get_content();

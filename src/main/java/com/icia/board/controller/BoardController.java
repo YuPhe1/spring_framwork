@@ -28,11 +28,28 @@ public class BoardController {
     @Autowired
     private CommentService commentService;
     @GetMapping("/list")
-    public String findAll(@RequestParam(value = "page", required = false, defaultValue = "1") int page, Model model){
-        List<BoardDTO> boardDTOList = boardService.pagingList(page);
+    public String findAll(@RequestParam(value = "page", required = false, defaultValue = "1") int page,
+                          @RequestParam(value = "searchType", required = false, defaultValue = "boardTitle") String type,
+                          @RequestParam(value = "q", required = false, defaultValue = "") String q,
+                          Model model){
+        // 검색이든 아니든 핑요한 정보: boardList, paging
+        List<BoardDTO> boardDTOList = null;
+        PageDTO pageDTO = null;
+        // 검색 요쳥인지 아닌지 구분
+        if(q.equals("")){
+            // 일반 페이지 요청
+            boardDTOList = boardService.pagingList(page);
+            pageDTO =boardService.pageNumber(page);
+        } else {
+            // 검색결과 페이지 요청
+            boardDTOList = boardService.searchList(type, q, page);
+            pageDTO = boardService.searchPageNumber(q, type, page);
+        }
         model.addAttribute("boardList", boardDTOList);
-        PageDTO pageDTO =boardService.pageNumber(page);
         model.addAttribute("paging", pageDTO);
+        model.addAttribute("q", q);
+        model.addAttribute("type", type);
+
         return "boardPage/boardList";
     }
 
@@ -48,7 +65,12 @@ public class BoardController {
     }
 
     @GetMapping
-    public String detail(Model model, @RequestParam("id") Long id, @RequestParam(value = "page", required = false, defaultValue = "1") int page, HttpServletResponse response, HttpServletRequest request){
+    public String detail(Model model,
+                         @RequestParam("id") Long id,
+                         @RequestParam(value = "page", required = false, defaultValue = "1") int page,
+                         @RequestParam(value = "searchType", required = false, defaultValue = "boardTitle") String type,
+                         @RequestParam(value = "q", required = false, defaultValue = "") String q,
+                         HttpServletResponse response, HttpServletRequest request){
         Cookie[] cookies = request.getCookies();
         boolean isHit = false;
         for(Cookie cookie : cookies){
@@ -76,6 +98,8 @@ public class BoardController {
             model.addAttribute("commentList", commentDTOList);
         }
         model.addAttribute("page", page);
+        model.addAttribute("q", q);
+        model.addAttribute("type", type);
         return "boardPage/boardDetail";
     }
 
@@ -105,17 +129,17 @@ public class BoardController {
         return "redirect:/board/list";
     }
 
-    @GetMapping("/search")
-    public String search(@RequestParam("searchType") String type, @RequestParam("q") String q,
-                         @RequestParam(value = "page", required = false, defaultValue = "1") int page, Model model){
-        List<BoardDTO> boardDTOList = boardService.searchList(type, q, page);
-        model.addAttribute("boardList", boardDTOList);
-
-        PageDTO pageDTO = boardService.searchPageNumber(q, type, page);
-        model.addAttribute("paging", pageDTO);
-
-        return "boardPage/boardList";
-    }
+//    @GetMapping("/search")
+//    public String search(@RequestParam("searchType") String type, @RequestParam("q") String q,
+//                         @RequestParam(value = "page", required = false, defaultValue = "1") int page, Model model){
+//        List<BoardDTO> boardDTOList = boardService.searchList(type, q, page);
+//        PageDTO pageDTO = boardService.searchPageNumber(q, type, page);
+//
+//        model.addAttribute("boardList", boardDTOList);
+//        model.addAttribute("paging", pageDTO);
+//
+//        return "boardPage/boardList";
+//    }
 
     @GetMapping("/getPaging")
     public @ResponseBody int getPage(@RequestParam("searchType") String searchType, @RequestParam("q") String q){
