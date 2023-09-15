@@ -1,30 +1,19 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <html>
 <head>
     <title>홈</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 </head>
 <body>
-<h2>홈페이지</h2>
-<a href="/member/save">회원가입</a>
-<span id="login-area"></span>
-<c:if test="${sessionScope.loginEmail == 'admin'}">
-    <a href="/member/list">회원목록</a>
-</c:if>
-<a href="/board/list">글목록</a>
-<a href="/board/insert">테스트글작성</a>
-<br>
-loginEmail: ${sessionScope.loginEmail}<br>
-loginName: ${sessionScope.loginName}
+<div class="row justify-content-center">
+    <div class="col-10">
+        <%@include file="component/header.jsp" %>
+        <%@include file="component/nav.jsp" %>
+        <h2 class="text-center">회원제 게시판 사이트입니다.</h2>
+        <%@include file="component/footer.jsp" %>
+    </div>
+</div>
 </body>
-<script>
-    const loginArea = document.getElementById("login-area");
-    const loginEmail = '${sessionScope.loginEmail}';
-    const loginName = '${sessionScope.loginName}';
-    if (loginEmail.length == 0) {
-        loginArea.innerHTML = "<a href='/member/login'>로그인</a>";
-    } else {
-        loginArea.innerHTML = "<a href='/member/logout'>로그아웃</a> " + "<a href='/member/detail'>${sessionScope.loginName}님</a>";
-    }
-</script>
 </html>

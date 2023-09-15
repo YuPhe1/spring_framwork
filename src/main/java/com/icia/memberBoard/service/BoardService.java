@@ -118,4 +118,16 @@ public class BoardService {
         pageDTO.setStartPage(startPage);
         return pageDTO;
     }
+
+    public void upHits(Long id) {
+        boardRepository.upHits(id);
+    }
+
+    public BoardDTO findById(Long id) {
+        return boardRepository.findById(id);
+    }
+
+    public List<BoardFileDTO> findFile(Long boardId) {
+        return boardRepository.findFile(boardId);
+    }
 }

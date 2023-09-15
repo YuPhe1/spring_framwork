@@ -26,4 +26,13 @@
     <select id="searchCount" parameterType="map" resultType="Integer">
         select count(id) as count from new_board_table where ${type} Like CONCAT('%',#{q},'%')
     </select>
+    <update id="upHits" parameterType="Long">
+        update new_board_table set boardHits=boardHits+1 where id = #{id}
+    </update>
+    <select id="findById" parameterType="Long" resultType="board">
+        select * from new_board_table where id = #{id}
+    </select>
+    <select id="findFile" parameterType="Long" resultType="boardFile">
+        select * from new_board_file_table where boardId = #{boardId}
+    </select>
 </mapper>
