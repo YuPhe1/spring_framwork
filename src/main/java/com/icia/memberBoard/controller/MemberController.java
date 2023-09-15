@@ -98,8 +98,9 @@ public class MemberController {
     }
 
     @PostMapping("/update")
-    public String update(@ModelAttribute MemberDTO memberDTO) throws Exception{
+    public String update(@ModelAttribute MemberDTO memberDTO, HttpSession session) throws Exception{
         memberService.update(memberDTO);
+        session.setAttribute("loginName", memberDTO.getMemberName());
         return "redirect:/member/detail";
     }
 
