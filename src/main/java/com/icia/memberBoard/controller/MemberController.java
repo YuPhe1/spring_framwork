@@ -51,6 +51,7 @@ public class MemberController {
     public ResponseEntity login(@ModelAttribute MemberDTO memberDTO, HttpSession session){
         MemberDTO dto = memberService.login(memberDTO);
         if(dto != null){
+            session.setAttribute("loginId", dto.getId());
             session.setAttribute("loginEmail", dto.getMemberEmail());
             session.setAttribute("loginName", dto.getMemberName());
             return new ResponseEntity<>(HttpStatus.OK);
