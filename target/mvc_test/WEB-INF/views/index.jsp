@@ -12,6 +12,7 @@
     <a href="/member/list">회원목록</a>
 </c:if>
 <a href="/board/list">글목록</a>
+<a href="/board/insert">테스트글작성</a>
 <br>
 loginEmail: ${sessionScope.loginEmail}<br>
 loginName: ${sessionScope.loginName}

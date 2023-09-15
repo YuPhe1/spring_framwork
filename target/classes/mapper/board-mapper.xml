@@ -3,10 +3,6 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="Board">
-    <select id="findAll" resultType="board">
-        select id, boardWriter, boardTitle, date_format(createdAt, "%y-%m-%d %H:%i%s") as createdAt, boardHits from new_board_table
-        order by id desc
-    </select>
     <insert id="save" parameterType="board" useGeneratedKeys="true" keyProperty="id">
         insert into new_board_table(boardWriter, boardWriterId, boardTitle, boardContents, fileAttached)
         values (#{boardWriter}, #{boardWriterId}, #{boardTitle}, #{boardContents}, #{fileAttached})
@@ -15,4 +11,19 @@
         insert into new_board_file_table(originalFileName, storedFileName, boardId)
         values (#{originalFileName}, #{storedFileName}, #{boardId})
     </insert>
+    <select id="search" parameterType="HashMap" resultType="board">
+        select id, boardWriter, boardTitle, date_format(createdAt, "%y-%m-%d %H:%i%s") as createdAt, boardHits
+        from new_board_table where ${type} Like CONCAT('%',#{q},'%') order by id desc
+            limit #{start}, #{limit}
+    </select>
+    <select id="count" resultType="Integer">
+        select count(id) from new_board_table;
+    </select>
+    <select id="pagingList" parameterType="java.util.HashMap" resultType="board">
+        select id, boardWriter, boardTitle, date_format(createdAt, "%y-%m-%d %H:%i%s") as createdAt, boardHits from new_board_table
+        order by id desc limit #{start}, #{limit}
+    </select>
+    <select id="searchCount" parameterType="map" resultType="Integer">
+        select count(id) as count from new_board_table where ${type} Like CONCAT('%',#{q},'%')
+    </select>
 </mapper>
