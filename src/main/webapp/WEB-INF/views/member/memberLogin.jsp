@@ -11,6 +11,7 @@
 <button onclick="login()">로그인</button>
 </body>
 <script>
+    const target = '${target}';
     const login = () => {
         const login_aria = document.getElementById("login-aria");
         const email = document.getElementById("memberEmail").value;
@@ -30,7 +31,11 @@
                 url:"/member/login",
                 data:{memberEmail: email, memberPassword:password},
                 success:function (){
-                    location.href = "/";
+                    if(target.length == 0) {
+                        location.href = "/";
+                    } else {
+                        location.href = target;
+                    }
                 }, error: function (){
                     login_aria.innerHTML = "이메일 또는 비밀번호가 틀렸습니다.";
                     login_aria.style.color = "red";

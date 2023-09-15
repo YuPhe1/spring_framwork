@@ -11,6 +11,7 @@
 <c:if test="${sessionScope.loginEmail == 'admin'}">
     <a href="/member/list">회원목록</a>
 </c:if>
+<a href="/board/list">글목록</a>
 <br>
 loginEmail: ${sessionScope.loginEmail}<br>
 loginName: ${sessionScope.loginName}

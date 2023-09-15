@@ -42,7 +42,8 @@ public class MemberController {
     }
 
     @GetMapping("/login")
-    public String login(){
+    public String login(@RequestParam(value = "target", required = false, defaultValue = "") String target, Model model){
+        model.addAttribute("target", target);
         return "member/memberLogin";
     }
 
