@@ -2,21 +2,52 @@
 <html>
 <head>
     <title>회원가입</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm"
+            crossorigin="anonymous"></script>
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 </head>
 <body>
 <h2>회원가입</h2>
-<form action="/member/save" method="post" name="memberSave" enctype="multipart/form-data">
-    <img src="https://via.placeholder.com/100x100" alt="" width="100" height="100" id="profile-image"><br>
-    이메일: <input type="text" id="memberEmail" name="memberEmail" onkeyup="check_false()"><button type="button" onclick="check_email()">중복체크</button> <br>
-    <div id="check-email-aria"></div>
-    비밀번호: <input type="password" name="memberPassword"><br>
-    이름: <input type="text" name="memberName"><br>
-    휴대폰: <input type="text" name="memberMobile" placeholder="010-0000-0000"><br>
-    <input type="file" id="profile" name="memberProfile" accept="image/*" style="display:none;"><br>
-    <button>회원가입</button>
-    <button type="button">취소</button>
-</form>
+<div class="row justify-content-center">
+    <div class="col-10">
+        <%@include file="../component/header.jsp" %>
+        <%@include file="../component/nav.jsp" %>
+        <div class="card p-3">
+            <form action="/member/save" method="post" name="memberSave" enctype="multipart/form-data">
+                <div class="text-center mb-3">
+                    <img src="https://via.placeholder.com/100x100" alt="" width="180px" id="profile-image">
+                </div>
+                <div class="input-group mb-3">
+                    <span class="input-group-text">이메일</span>
+                    <input class="form-control" type="text" id="memberEmail" name="memberEmail" onkeyup="check_false()">
+                    <button class="btn btn-secondary" type="button" onclick="check_email()">중복체크</button>
+                </div>
+                <div id="check-email-aria"></div>
+                <div class="input-group mb-3">
+                    <span class="input-group-text">비밀번호</span>
+                    <input class="form-control" type="password" name="memberPassword">
+                </div>
+                <div class="input-group mb-3">
+                    <span class="input-group-text">이름</span>
+                    <input class="form-control" type="text" name="memberName">
+                </div>
+                <div class="input-group mb-3">
+                    <span class="input-group-text">휴대폰</span>
+                    <input class="form-control" type="text" name="memberMobile" placeholder="010-0000-0000">
+                </div>
+                <input type="file" id="profile" name="memberProfile" accept="image/*" style="display:none;"><br>
+                <div class="text-center">
+                    <button class="btn btn-primary px-3">회원가입</button>
+                    <button class="btn btn-secondary px-3" type="button" onclick="cancel_fn()">취소</button>
+                </div>
+            </form>
+        </div>
+        <%@include file="../component/footer.jsp" %>
+    </div>
+</div>
 </body>
 <script>
     let checkEmail = false;
@@ -33,10 +64,10 @@
     }
     const check_email = () => {
         const email = document.getElementById("memberEmail").value;
-        if(email == ""){
+        if (email == "") {
             checkEmailAria.innerHTML = "이메일을 입력하세요.";
             checkEmailAria.style.color = "red";
-            checkEmail= false;
+            checkEmail = false;
         } else {
             $.ajax({
                 type: "post",
@@ -49,7 +80,7 @@
                 }, error: function () {
                     checkEmailAria.innerHTML = "이미 사용중인 이메일 입니다."
                     checkEmailAria.style.color = "red";
-                    checkEmail= false;
+                    checkEmail = false;
                 }
             })
         }
@@ -59,18 +90,22 @@
         e.preventDefault()
         let password = this.memberPassword;
         let name = this.memberName;
-        if(!checkEmail){
+        if (!checkEmail) {
             alert("이메일을 확인해 주세요")
             this.memberEmail.focus();
-        } else if (password.value == ""){
+        } else if (password.value == "") {
             alert("비밀번호를 입력해주새요")
             password.focus();
-        } else if (name.value == ""){
+        } else if (name.value == "") {
             alert("이름을 입력해주새요")
             name.focus();
         } else {
             this.submit();
         }
     })
+
+    const cancel_fn = () => {
+        location.href = "/";
+    }
 </script>
 </html>

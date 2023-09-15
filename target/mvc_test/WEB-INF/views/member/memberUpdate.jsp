@@ -3,30 +3,68 @@
 <html>
 <head>
     <title>정보수정</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm"
+            crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 </head>
 <body>
-    <form action="/member/update" method="post" name="memberUpdate" enctype="multipart/form-data">
-        <c:if test="${member.profileAttached == 1}">
-            <img src="${pageContext.request.contextPath}/member_upload/${memberProfile.storedFileName}" alt="" width="100"
-                 height="100" id="profile-image">
-        </c:if>
-        <div id="profile-name">
-        <c:if test="${member.profileAttached == 1}">
-            ${memberProfile.originalFileName}
-        </c:if>
+<div class="row justify-content-center">
+    <div class="col-10">
+        <%@include file="../component/header.jsp" %>
+        <%@include file="../component/nav.jsp" %>
+        <div class="card p-3">
+            <div class="row justify-content-center">
+                <form action="/member/update" method="post" name="memberUpdate" enctype="multipart/form-data">
+                    <div class="col text-center mb-3">
+                        <c:if test="${member.profileAttached == 1}">
+                            <img src="${pageContext.request.contextPath}/member_upload/${memberProfile.storedFileName}"
+                                 alt=""
+                                 width="180px"
+                                 id="profile-image">
+                        </c:if>
+                        <c:if test="${member.profileAttached == 0}">
+                            <img src="https://via.placeholder.com/100x100" alt="" width="180px"
+                                 id="profile-image">
+                        </c:if>
+                    </div>
+                    <input type="hidden" name="id" value="${member.id}">
+                    <div class="input-group mb-3">
+                        <span class="input-group-text">이메일</span>
+                        <input type="text" class="form-control" name="memberEmail" value="${member.memberEmail}"
+                               readonly>
+                    </div>
+                    <div class="input-group mb-3">
+                        <span class="input-group-text">비밀번호</span>
+                        <input type="password" class="form-control" name="memberPassword" id="member-password">
+                    </div>
+                    <div class="input-group mb-3">
+                        <span class="input-group-text">이름</span>
+                        <input type="text" class="form-control" name="memberName" value="${member.memberName}">
+                    </div>
+                    <div class="input-group mb-3">
+                        <span class="input-group-text">휴대폰</span>
+                        <input type="text" class="form-control" name="memberMobile" value="${member.memberMobile}"
+                               placeholder="010-0000-0000">
+                    </div>
+                    <input type="hidden" name="profileAttached" value="${member.profileAttached}"
+                           id="profileAttached">
+                    <div class="input-group mb-3">
+                        <input type="file" class="form-control" name="memberProfile" accept="image/*" id="profile"
+                               style="display: none">
+                    </div>
+                    <div class="text-center">
+                        <button class="btn btn-primary px-3">수정</button>
+                        <button class="btn btn-secondary px-3" type="button" onclick="cancel_fn()">취소</button>
+                    </div>
+                </form>
+            </div>
         </div>
-        <c:if test="${member.profileAttached == 0}">
-            <img src="https://via.placeholder.com/100x100" alt="" width="100" height="100" id="profile-image">
-        </c:if>
-        <input type="hidden" name="id" value="${member.id}">
-        이메일: <input type="text" name="memberEmail" value="${member.memberEmail}" readonly><br>
-        비밀번호: <input type="password" name="memberPassword" id="member-password"> <br>
-        이름: <input type="text" name="memberName" value="${member.memberName}"><br>
-        휴대폰: <input type="text" name="memberMobile" value="${member.memberMobile}" placeholder="010-0000-0000"><br>
-        <input type="hidden" name="profileAttached" value="${member.profileAttached}" id="profileAttached">
-        <input type="file" name="memberProfile" accept="image/*" id="profile" style="display: none">
-        <button>수정</button> <button type="button" onclick="cancel_fn()">취소</button>
-    </form>
+        <%@include file="../component/footer.jsp" %>
+    </div>
+</div>
 </body>
 <script>
     document.getElementById("profile-image").addEventListener("click", () => {
@@ -36,7 +74,7 @@
         e.preventDefault();
         const loginPassword = '${member.memberPassword}';
         const password = document.getElementById("member-password").value;
-        if(loginPassword == password){
+        if (loginPassword == password) {
             document.memberUpdate.submit();
         } else {
             alert("비밀번호가 틀렸습니다.");
