@@ -1,7 +1,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <title>홈</title>
+    <title>게시글 정보</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet"
           integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"
@@ -49,7 +49,7 @@
     const type = '${type}';
     const q = '${q}';
     const update_fn = (id) => {
-        location.href = "/board/update?id=" + id + "page=" + page + "&searchType=" + type + "&q=" + q;
+        location.href = "/board/update?id=" + id;
     }
     const list_fn = () => {
         location.href = "/board/list?page=" + page + "&searchType=" + type + "&q=" + q;

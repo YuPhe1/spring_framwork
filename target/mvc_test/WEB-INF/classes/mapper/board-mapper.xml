@@ -38,4 +38,11 @@
     <delete id="delete" parameterType="Long">
         delete from new_board_table where id=#{id}
     </delete>
+    <delete id="deleteBoardFile" parameterType="boardFile">
+        delete from new_board_file_table where boardId=#{boardId} and storedFileName=#{storedFileName}
+    </delete>
+    <update id="update" parameterType="board">
+        update new_board_table set boardWriter=#{boardWriter}, boardTitle=#{boardTitle}, boardContents=#{boardContents}, fileAttached=#{fileAttached}
+        where id=#{id}
+    </update>
 </mapper>

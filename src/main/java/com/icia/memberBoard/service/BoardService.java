@@ -50,6 +50,7 @@ public class BoardService {
             }
         }
     }
+
     public List<BoardDTO> pagingList(int page) {
         int pageLimit = 5; // 한페이지당 보여줄 글 갯수
         int pagingStart = (page - 1) * pageLimit;
@@ -58,15 +59,16 @@ public class BoardService {
         pageParams.put("limit", pageLimit);
         return boardRepository.pagingList(pageParams);
     }
+
     public PageDTO pageNumber(int page) {
         int pageLimit = 5; // 한페이지에 보여줄 글 갯수
         int blockLimit = 3; // 하단에 보여줄 페이지 번호 갯수
         // 전체 글 갯수 조회
         int boardCount = boardRepository.boardCount();
         // 전체 페이지 갯수 계산
-        int maxPage = (int) (Math.ceil((double)boardCount / pageLimit));
+        int maxPage = (int) (Math.ceil((double) boardCount / pageLimit));
         // 시작 페이지 값 계산(1, 11, 21, 31 ~~)
-        int startPage = (((int)(Math.ceil((double) page / blockLimit))) - 1) * blockLimit + 1;
+        int startPage = (((int) (Math.ceil((double) page / blockLimit))) - 1) * blockLimit + 1;
         // 마지막 페이지 값 계산(10, 20, 30, 40 ~~)
         int endPage = startPage + blockLimit - 1;
         // 전체 페이지 갯수가 계산한 endPage 보다 작을 때는 endPage 값을 maxPage 값과 같게 세팅
@@ -102,9 +104,9 @@ public class BoardService {
         // 검색어 기준 전체 글 갯수 조회
         int boardCount = boardRepository.boardSearchCount(pagingParams);
         // 전체 페이지 갯수 계산
-        int maxPage = (int) (Math.ceil((double)boardCount / pageLimit));
+        int maxPage = (int) (Math.ceil((double) boardCount / pageLimit));
         // 시작 페이지 값 계산(1, 11, 21, 31 ~~)
-        int startPage = (((int)(Math.ceil((double) page / blockLimit))) - 1) * blockLimit + 1;
+        int startPage = (((int) (Math.ceil((double) page / blockLimit))) - 1) * blockLimit + 1;
         // 마지막 페이지 값 계산(10, 20, 30, 40 ~~)
         int endPage = startPage + blockLimit - 1;
         // 전체 페이지 갯수가 계산한 endPage 보다 작을 때는 endPage 값을 maxPage 값과 같게 세팅
@@ -133,7 +135,7 @@ public class BoardService {
 
     public void deleteFile(Long id) {
         List<BoardFileDTO> boardFileDTOList = boardRepository.findFile(id);
-        for(BoardFileDTO boardFileDTO : boardFileDTOList) {
+        for (BoardFileDTO boardFileDTO : boardFileDTOList) {
             File file = new File("D:\\boardFile\\" + boardFileDTO.getStoredFileName());
             if (file.exists()) {
                 file.delete();
@@ -143,5 +145,68 @@ public class BoardService {
 
     public void delete(Long id) {
         boardRepository.delete(id);
+    }
+
+    public void update(BoardDTO boardDTO, List<String> deleteFileName) throws IOException {
+        List<BoardFileDTO> boardFileDTOList = boardRepository.findFile(boardDTO.getId());
+        System.out.println("deleteFileName = " + deleteFileName);
+        System.out.println(boardFileDTOList.size() == deleteFileName.size());
+        if (deleteFileName != null) {
+            if (boardFileDTOList.size() == deleteFileName.size() && boardDTO.getBoardFile().get(0).isEmpty()) {
+                boardDTO.setFileAttached(0);
+            } else {
+                boardDTO.setFileAttached(1);
+            }
+            // 삭제할 파일 삭제
+            for (String fileName : deleteFileName) {
+                File file = new File("D:\\boardFile\\" + fileName);
+                if (file.exists()) {
+                    file.delete();
+                }
+                BoardFileDTO boardFileDTO = new BoardFileDTO();
+                boardFileDTO.setBoardId(boardDTO.getId());
+                boardFileDTO.setStoredFileName(fileName);
+                boardRepository.deleteFile(boardFileDTO);
+            }
+            boardRepository.update(boardDTO);
+            if(!boardDTO.getBoardFile().get(0).isEmpty()) {
+                List<MultipartFile> boardFileList = boardDTO.getBoardFile();
+                for (MultipartFile boardFile : boardFileList) {
+                    // 파일 이름 가져오기
+                    String originalFileName = boardFile.getOriginalFilename();
+                    // 저장용 이름 만들기
+                    String storedFileName = System.currentTimeMillis() + "-" + originalFileName;
+                    // BoardFileDTO 세팅
+                    BoardFileDTO boardFileDTO = new BoardFileDTO();
+                    boardFileDTO.setOriginalFileName(originalFileName);
+                    boardFileDTO.setStoredFileName(storedFileName);
+                    boardFileDTO.setBoardId(boardDTO.getId());
+                    // 파일 저장용 폴더에 파일 저장 처리
+                    String savePath = "D:\\boardFile\\" + storedFileName;
+                    boardFile.transferTo(new File(savePath));
+                    boardRepository.saveFile(boardFileDTO);
+                }
+            }
+        } else {
+            if(!boardDTO.getBoardFile().get(0).isEmpty()){
+                boardDTO.setFileAttached(1);boardDTO.setFileAttached(1);
+                List<MultipartFile> boardFileList = boardDTO.getBoardFile();
+                for (MultipartFile boardFile : boardFileList) {
+                    // 파일 이름 가져오기
+                    String originalFileName = boardFile.getOriginalFilename();
+                    // 저장용 이름 만들기
+                    String storedFileName = System.currentTimeMillis() + "-" + originalFileName;
+                    // BoardFileDTO 세팅
+                    BoardFileDTO boardFileDTO = new BoardFileDTO();
+                    boardFileDTO.setOriginalFileName(originalFileName);
+                    boardFileDTO.setStoredFileName(storedFileName);
+                    boardFileDTO.setBoardId(boardDTO.getId());
+                    // 파일 저장용 폴더에 파일 저장 처리
+                    String savePath = "D:\\boardFile\\" + storedFileName;
+                    boardFile.transferTo(new File(savePath));
+                    boardRepository.saveFile(boardFileDTO);
+                }
+            }
+        }
     }
 }
