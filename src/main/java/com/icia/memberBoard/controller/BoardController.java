@@ -57,20 +57,6 @@ public class BoardController {
         boardService.save(boardDTO);
         return "redirect:/board/list";
     }
-    @GetMapping("/insert")
-    public String insert() throws IOException {
-        for(int i = 1; i <= 15 ; i++) {
-            BoardDTO boardDTO = new BoardDTO();
-            boardDTO.setBoardTitle("test"+i);
-            boardDTO.setBoardWriter("test1");
-            boardDTO.setBoardContents("test"+i);
-            boardDTO.setBoardWriterId(2L);
-            boardDTO.setFileAttached(0);
-            boardService.save(boardDTO);
-        }
-        return "redirect:/board/list";
-    }
-
     @GetMapping
     public String detail(Model model,
                          @RequestParam("id") Long id,
@@ -103,5 +89,15 @@ public class BoardController {
         model.addAttribute("q", q);
         model.addAttribute("type", type);
         return "board/boardDetail";
+    }
+
+    @GetMapping("/delete")
+    public String delete(@RequestParam("id") Long id){
+        BoardDTO boardDTO = boardService.findById(id);
+        if(boardDTO.getFileAttached() == 1) {
+            boardService.deleteFile(id);
+        }
+        boardService.delete(id);
+        return "redirect:/board/list";
     }
 }

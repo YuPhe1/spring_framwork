@@ -130,4 +130,18 @@ public class BoardService {
     public List<BoardFileDTO> findFile(Long boardId) {
         return boardRepository.findFile(boardId);
     }
+
+    public void deleteFile(Long id) {
+        List<BoardFileDTO> boardFileDTOList = boardRepository.findFile(id);
+        for(BoardFileDTO boardFileDTO : boardFileDTOList) {
+            File file = new File("D:\\boardFile\\" + boardFileDTO.getStoredFileName());
+            if (file.exists()) {
+                file.delete();
+            }
+        }
+    }
+
+    public void delete(Long id) {
+        boardRepository.delete(id);
+    }
 }

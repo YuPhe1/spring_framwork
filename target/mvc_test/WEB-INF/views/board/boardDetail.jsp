@@ -35,7 +35,7 @@
                     <button class="btn btn-primary px-3" onclick="update_fn('${board.id}')">수정</button>
                 </c:if>
                 <button class="btn btn-secondary px-3" onclick="list_fn()">목록</button>
-                <c:if test="${sessionScope.loginId == board.boardWriterId}">
+                <c:if test="${sessionScope.loginId == board.boardWriterId || sessionScope.loginEmail == 'admin'}">
                     <button class="btn btn-danger px-3" onclick="delete_fn('${board.id}')">삭제</button>
                 </c:if>
             </div>
@@ -55,7 +55,9 @@
         location.href = "/board/list?page=" + page + "&searchType=" + type + "&q=" + q;
     }
     const delete_fn = (id) => {
-        location.href = "/board/delete?id=" + id + "page=" + page + "&searchType=" + type + "&q=" + q;
+        if(confirm("해당 게시글을 삭제하시겠습니까?")) {
+            location.href = "/board/delete?id=" + id;
+        }
     }
 </script>
 </html>
