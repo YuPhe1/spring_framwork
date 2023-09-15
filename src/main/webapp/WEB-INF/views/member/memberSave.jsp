@@ -7,12 +7,13 @@
 <body>
 <h2>회원가입</h2>
 <form action="/member/save" method="post" name="memberSave" enctype="multipart/form-data">
+    <img src="https://via.placeholder.com/100x100" alt="" width="100" height="100" id="profile-image"><br>
     이메일: <input type="text" id="memberEmail" name="memberEmail" onkeyup="check_false()"><button type="button" onclick="check_email()">중복체크</button> <br>
     <div id="check-email-aria"></div>
     비밀번호: <input type="password" name="memberPassword"><br>
     이름: <input type="text" name="memberName"><br>
     휴대폰: <input type="text" name="memberMobile" placeholder="010-0000-0000"><br>
-    이미지: <input type="file" name="memberProfile" accept="image/*"><br>
+    <input type="file" id="profile" name="memberProfile" accept="image/*" style="display:none;"><br>
     <button>회원가입</button>
     <button type="button">취소</button>
 </form>
@@ -20,6 +21,12 @@
 <script>
     let checkEmail = false;
     const checkEmailAria = document.getElementById("check-email-aria");
+    document.getElementById("profile-image").addEventListener("click", () => {
+        document.getElementById("profile").click();
+    })
+    document.getElementById("profile").addEventListener("change", (e) => {
+        document.getElementById("profile-image").src = URL.createObjectURL(e.target.files[0]);
+    })
     const check_false = () => {
         checkEmail = false;
         checkEmailAria.innerHTML = "";

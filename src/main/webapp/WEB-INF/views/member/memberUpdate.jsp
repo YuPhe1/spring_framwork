@@ -24,11 +24,14 @@
         이름: <input type="text" name="memberName" value="${member.memberName}"><br>
         휴대폰: <input type="text" name="memberMobile" value="${member.memberMobile}" placeholder="010-0000-0000"><br>
         <input type="hidden" name="profileAttached" value="${member.profileAttached}" id="profileAttached">
-        <input type="file" name="memberProfile" accept="image/*" id="profile"><br>
+        <input type="file" name="memberProfile" accept="image/*" id="profile" style="display: none">
         <button>수정</button> <button type="button" onclick="cancel_fn()">취소</button>
     </form>
 </body>
 <script>
+    document.getElementById("profile-image").addEventListener("click", () => {
+        document.getElementById("profile").click();
+    })
     document.memberUpdate.addEventListener("submit", (e) => {
         e.preventDefault();
         const loginPassword = '${member.memberPassword}';

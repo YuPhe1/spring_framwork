@@ -18,12 +18,12 @@
                     </c:if>
                     <li class="nav-item">
                         <c:if test="${sessionScope.loginEmail == null}">
-                            <a a class="nav-link active" aria-current="page" href="/member/login">로그인</a>
+                            <a class="nav-link active" aria-current="page" href="/member/login">로그인</a>
                         </c:if>
                     </li>
                     <li class="nav-item">
                         <c:if test="${sessionScope.loginEmail != null}">
-                            <a a class="nav-link active" aria-current="page" href="/member/logout">로그아웃</a>
+                            <a class="nav-link active" aria-current="page" href="/member/logout">로그아웃</a>
                         </c:if>
                     </li>
                     <li class="nav-item">
@@ -35,7 +35,7 @@
                         <a class="nav-link active" aria-current="page" href="/board/list">게시판</a>
                     <li class="nav-item">
                         <c:if test="${sessionScope.loginEmail != null}">
-                            <a a class="nav-link active" aria-current="page" href="/member/detail">${sessionScope.loginName}님</a>
+                            <a class="nav-link active" aria-current="page" href="/member/detail">${sessionScope.loginName}님</a>
                         </c:if>
                     </li>
                 </ul>
