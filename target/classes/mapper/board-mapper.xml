@@ -3,5 +3,12 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="Board">
-
+    <insert id="save" parameterType="board" useGeneratedKeys="true" keyProperty="id">
+        insert into new_board_table(boardWriter, boardWriterId, boardTitle, boardContents, fileAttached)
+        values (#{boardWriter}, #{boardWriterId}, #{boardTitle}, #{boardContents}, #{fileAttached})
+    </insert>
+    <insert id="saveFile" parameterType="boardFile">
+        insert into new_board_file_table(originalFileName, storedFileName, boardId)
+        values (#{originalFileName}, #{storedFileName}, #{boardId})
+    </insert>
 </mapper>

@@ -15,6 +15,7 @@
 
     <!-- 파일 접근 경로 지정 -->
     <resources mapping="/member_upload/**" location="file:///D:/member_profile/"/>
+    <resources mapping="/board_upload/**" location="file:///D:/boardFile/"/>
 
     <!-- Resolves views selected for rendering by @Controllers to .jsp resources in the /WEB-INF/views directory -->
     <beans:bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
