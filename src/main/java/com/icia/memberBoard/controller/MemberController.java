@@ -29,7 +29,7 @@ public class MemberController {
     @PostMapping("/save")
     public String save(@ModelAttribute MemberDTO memberDTO) throws IOException {
         memberService.save(memberDTO);
-        return "index";
+        return "redirect:/member/login";
     }
 
     @PostMapping("/duplicate-check")
