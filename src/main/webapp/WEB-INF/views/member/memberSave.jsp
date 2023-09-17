@@ -10,38 +10,42 @@
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 </head>
 <body>
-<h2>회원가입</h2>
 <div class="row justify-content-center">
     <div class="col-10">
         <%@include file="../component/header.jsp" %>
         <%@include file="../component/nav.jsp" %>
         <div class="card p-3">
             <form action="/member/save" method="post" name="memberSave" enctype="multipart/form-data">
-                <div class="text-center mb-3">
-                    <img src="https://via.placeholder.com/100x100" alt="" width="180px" id="profile-image">
-                </div>
-                <div class="input-group mb-3">
-                    <span class="input-group-text">이메일</span>
-                    <input class="form-control" type="text" id="memberEmail" name="memberEmail" onkeyup="check_false()">
-                    <button class="btn btn-secondary" type="button" onclick="check_email()">중복체크</button>
-                </div>
-                <div id="check-email-aria"></div>
-                <div class="input-group mb-3">
-                    <span class="input-group-text">비밀번호</span>
-                    <input class="form-control" type="password" name="memberPassword">
-                </div>
-                <div class="input-group mb-3">
-                    <span class="input-group-text">이름</span>
-                    <input class="form-control" type="text" name="memberName">
-                </div>
-                <div class="input-group mb-3">
-                    <span class="input-group-text">휴대폰</span>
-                    <input class="form-control" type="text" name="memberMobile" placeholder="010-0000-0000">
-                </div>
-                <input type="file" id="profile" name="memberProfile" accept="image/*" style="display:none;"><br>
-                <div class="text-center">
-                    <button class="btn btn-primary px-3">회원가입</button>
-                    <button class="btn btn-secondary px-3" type="button" onclick="cancel_fn()">취소</button>
+                <div class="row">
+                    <div class="col-2 text-center mb-3">
+                        <img src="https://via.placeholder.com/100x100" alt="" width="180px" id="profile-image">
+                    </div>
+                    <div class="col-10">
+                        <div class="input-group mb-3">
+                            <span class="input-group-text">이메일</span>
+                            <input class="form-control" type="text" id="memberEmail" name="memberEmail"
+                                   onkeyup="check_false()">
+                            <button class="btn btn-secondary" type="button" onclick="check_email()">중복체크</button>
+                        </div>
+                        <div id="check-email-aria"></div>
+                        <div class="input-group mb-3">
+                            <span class="input-group-text">비밀번호</span>
+                            <input class="form-control" type="password" name="memberPassword">
+                        </div>
+                        <div class="input-group mb-3">
+                            <span class="input-group-text">이름</span>
+                            <input class="form-control" type="text" name="memberName">
+                        </div>
+                        <div class="input-group mb-3">
+                            <span class="input-group-text">휴대폰</span>
+                            <input class="form-control" type="text" name="memberMobile" placeholder="010-0000-0000">
+                        </div>
+                        <input type="file" id="profile" name="memberProfile" accept="image/*" style="display:none;">
+                    </div>
+                    <div class="text-center">
+                        <button class="btn btn-primary px-3">회원가입</button>
+                        <button class="btn btn-secondary px-3" type="button" onclick="cancel_fn()">취소</button>
+                    </div>
                 </div>
             </form>
         </div>
