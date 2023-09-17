@@ -40,4 +40,16 @@ create table new_board_file_table
     boardId         bigint,
     constraint foreign key (boardId) references new_board_table (id) on delete cascade
 );
+
+create table new_comment_table
+(
+    id              bigint primary key auto_increment,
+    commentWriterId bigint       not null,
+    commentWriter   varchar(20)  not null,
+    createdAt       timestamp default now(),
+    commentContents varchar(500) not null,
+    boardId         bigint       not null,
+    constraint foreign key (commentWriterId) references new_member_table (id) on delete cascade,
+    constraint foreign key (boardId) references new_board_table (id) on delete cascade
+);
 ```
