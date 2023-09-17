@@ -16,24 +16,27 @@
         <%@include file="../component/header.jsp" %>
         <%@include file="../component/nav.jsp" %>
         <div class="card p-3">
-            <div class="text-center">
-            <c:if test="${member.profileAttached == 1}">
-                <img src="${pageContext.request.contextPath}/member_upload/${memberProfile.storedFileName}" alt=""
-                     width="180px">
-            </c:if>
-            <c:if test="${member.profileAttached == 0}">
-                <img src="https://via.placeholder.com/100x100" alt="" width="180px">
-            </c:if>
-            </div>
-            <div class="text-center">
-            id: ${member.id}<br>
-            이메일: ${member.memberEmail}<br>
-            이름: ${member.memberName}<br>
-            휴대폰: ${member.memberMobile}
-            </div>
-            <div class="text-center">
-                <button class="btn btn-secondary px-3" onclick="home()">홈</button>
-                <button class="btn btn-primary px-3" onclick="member_update_fn()">수정</button>
+            <div class="row">
+                <div class="col-2 text-center">
+                    <c:if test="${member.profileAttached == 1}">
+                        <img src="${pageContext.request.contextPath}/member_upload/${memberProfile.storedFileName}"
+                             alt=""
+                             width="180px">
+                    </c:if>
+                    <c:if test="${member.profileAttached == 0}">
+                        <img src="https://via.placeholder.com/100x100" alt="" width="180px">
+                    </c:if>
+                </div>
+                <div class="col-10">
+                    id: ${member.id}<br>
+                    이메일: ${member.memberEmail}<br>
+                    이름: ${member.memberName}<br>
+                    휴대폰: ${member.memberMobile}
+                </div>
+                <div class="text-center">
+                    <button class="btn btn-secondary px-3" onclick="home()">홈</button>
+                    <button class="btn btn-primary px-3" onclick="member_update_fn()">수정</button>
+                </div>
             </div>
         </div>
         <%@include file="../component/footer.jsp" %>

@@ -32,7 +32,7 @@
                     <td>${member.memberName}</td>
                     <td>${member.memberMobile}</td>
                     <td>
-                        <button class="btn btn-danger" onclick="delete_fn(${member.id})">삭제</button>
+                        <button class="btn btn-danger btn-sm" onclick="delete_fn(${member.id})">삭제</button>
                     </td>
                 </tr>
             </c:forEach>

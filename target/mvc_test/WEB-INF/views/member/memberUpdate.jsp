@@ -16,9 +16,9 @@
         <%@include file="../component/header.jsp" %>
         <%@include file="../component/nav.jsp" %>
         <div class="card p-3">
-            <div class="row justify-content-center">
-                <form action="/member/update" method="post" name="memberUpdate" enctype="multipart/form-data">
-                    <div class="col text-center mb-3">
+            <form action="/member/update" method="post" name="memberUpdate" enctype="multipart/form-data">
+                <div class="row justify-content-center">
+                    <div class="col-2 text-center mb-3">
                         <c:if test="${member.profileAttached == 1}">
                             <img src="${pageContext.request.contextPath}/member_upload/${memberProfile.storedFileName}"
                                  alt=""
@@ -30,37 +30,39 @@
                                  id="profile-image">
                         </c:if>
                     </div>
-                    <input type="hidden" name="id" value="${member.id}">
-                    <div class="input-group mb-3">
-                        <span class="input-group-text">이메일</span>
-                        <input type="text" class="form-control" name="memberEmail" value="${member.memberEmail}"
-                               readonly>
-                    </div>
-                    <div class="input-group mb-3">
-                        <span class="input-group-text">비밀번호</span>
-                        <input type="password" class="form-control" name="memberPassword" id="member-password">
-                    </div>
-                    <div class="input-group mb-3">
-                        <span class="input-group-text">이름</span>
-                        <input type="text" class="form-control" name="memberName" value="${member.memberName}">
-                    </div>
-                    <div class="input-group mb-3">
-                        <span class="input-group-text">휴대폰</span>
-                        <input type="text" class="form-control" name="memberMobile" value="${member.memberMobile}"
-                               placeholder="010-0000-0000">
-                    </div>
-                    <input type="hidden" name="profileAttached" value="${member.profileAttached}"
-                           id="profileAttached">
-                    <div class="input-group mb-3">
-                        <input type="file" class="form-control" name="memberProfile" accept="image/*" id="profile"
-                               style="display: none">
+                    <div class="col-10">
+                        <input type="hidden" name="id" value="${member.id}">
+                        <div class="input-group mb-3">
+                            <span class="input-group-text">이메일</span>
+                            <input type="text" class="form-control" name="memberEmail" value="${member.memberEmail}"
+                                   readonly>
+                        </div>
+                        <div class="input-group mb-3">
+                            <span class="input-group-text">비밀번호</span>
+                            <input type="password" class="form-control" name="memberPassword" id="member-password">
+                        </div>
+                        <div class="input-group mb-3">
+                            <span class="input-group-text">이름</span>
+                            <input type="text" class="form-control" name="memberName" value="${member.memberName}">
+                        </div>
+                        <div class="input-group mb-3">
+                            <span class="input-group-text">휴대폰</span>
+                            <input type="text" class="form-control" name="memberMobile" value="${member.memberMobile}"
+                                   placeholder="010-0000-0000">
+                        </div>
+                        <input type="hidden" name="profileAttached" value="${member.profileAttached}"
+                               id="profileAttached">
+                        <div class="input-group mb-3">
+                            <input type="file" class="form-control" name="memberProfile" accept="image/*" id="profile"
+                                   style="display: none">
+                        </div>
                     </div>
                     <div class="text-center">
                         <button class="btn btn-primary px-3">수정</button>
                         <button class="btn btn-secondary px-3" type="button" onclick="cancel_fn()">취소</button>
                     </div>
-                </form>
-            </div>
+                </div>
+            </form>
         </div>
         <%@include file="../component/footer.jsp" %>
     </div>
