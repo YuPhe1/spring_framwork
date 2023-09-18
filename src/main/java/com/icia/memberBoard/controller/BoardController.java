@@ -4,6 +4,7 @@ import com.icia.memberBoard.dto.BoardDTO;
 import com.icia.memberBoard.dto.BoardFileDTO;
 import com.icia.memberBoard.dto.PageDTO;
 import com.icia.memberBoard.service.BoardService;
+import com.icia.memberBoard.service.CommentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -22,6 +23,8 @@ public class BoardController {
 
     @Autowired
     private BoardService boardService;
+    @Autowired
+    private CommentService commentService;
 
     @GetMapping("/list")
     public String findAll(@RequestParam(value = "page", required = false, defaultValue = "1") int page,
@@ -86,10 +89,11 @@ public class BoardController {
             model.addAttribute("boardFileList", boardFileDTOList);
         }
         model.addAttribute("board", boardDTO);
-
         model.addAttribute("page", page);
         model.addAttribute("q", q);
         model.addAttribute("type", type);
+
+        model.addAttribute("commentList", commentService.findAll(id));
         return "board/boardDetail";
     }
 

@@ -40,9 +40,10 @@
                 </c:if>
             </div>
             <hr>
+            <h4>댓글 목록</h4>
             <div>
                 <c:if test="${sessionScope.loginEmail != null}">
-                    <div class="card p-3">
+                    <div class="card p-3 mb-3">
                         <div class="row">
                             <input type="hidden" value="${board.id}" name="boardId">
                             <input type="hidden" value="${sessionScope.loginId}" name="commentWriterId">
@@ -60,6 +61,22 @@
                         </div>
                     </div>
                 </c:if>
+            </div>
+            <div id="comment-list-area">
+                <c:choose>
+                    <c:when test="${commentList == null}">
+                        <h4>작성된 댓글이 없습니다.</h4>
+                    </c:when>
+                    <c:otherwise>
+                        <c:forEach items="${commentList}" var="comment">
+                            <div class="comment mb-3">
+                                작성자: ${comment.commentWriter} 작성일: ${comment.createdAt}
+                                <hr>
+                                ${comment.commentContents}
+                            </div>
+                        </c:forEach>
+                    </c:otherwise>
+                </c:choose>
             </div>
         </div>
         <%@include file="../component/footer.jsp" %>
@@ -98,7 +115,15 @@
             },
             success: function (res) {
                 document.querySelector("#comment-contents").value = "";
-
+                let output = "";
+                for(let i in res){
+                    output = "<div class='comment mb-3'>";
+                    output += "작성자:" + res[i].commentWriter + " 작성일:" + res[i].createdAt;
+                    output += "<hr>";
+                    output += res[i].commentContents;
+                    output += "</div>";
+                }
+                result.innerHTML = output;
             },
             error: function () {
                 console.log("댓글 작성 실패")

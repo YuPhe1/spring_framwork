@@ -22,9 +22,8 @@ public class CommentController {
 
     @PostMapping("/save")
     public ResponseEntity save(@ModelAttribute CommentDTO commentDTO){
-        System.out.println("commentDTO = " + commentDTO);
         commentService.save(commentDTO);
-//        List<CommentDTO> commentDTOList = commentService.findAll(commentDTO.getBoardId());
+        List<CommentDTO> commentDTOList = commentService.findAll(commentDTO.getBoardId());
         return new ResponseEntity<>(HttpStatus.OK);
     }
 }
