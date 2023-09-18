@@ -68,4 +68,8 @@ public class BoardRepository {
     public List<BoardDTO> findByWriterId(Long id) {
         return sql.selectList("Board.findByWriterId", id);
     }
+
+    public void updateWriter(Map<String, Object> parameter) {
+        sql.update("Board.updateWriter", parameter);
+    }
 }

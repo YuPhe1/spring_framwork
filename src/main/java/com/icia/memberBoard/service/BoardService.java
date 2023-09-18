@@ -222,4 +222,11 @@ public class BoardService {
             }
         }
     }
+
+    public void updateWriter(Long id, String memberName) {
+        Map<String, Object> parameter = new HashMap<>();
+        parameter.put("writerId", id);
+        parameter.put("writer", memberName);
+        boardRepository.updateWriter(parameter);
+    }
 }

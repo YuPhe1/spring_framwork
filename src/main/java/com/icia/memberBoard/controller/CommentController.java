@@ -24,6 +24,6 @@ public class CommentController {
     public ResponseEntity save(@ModelAttribute CommentDTO commentDTO){
         commentService.save(commentDTO);
         List<CommentDTO> commentDTOList = commentService.findAll(commentDTO.getBoardId());
-        return new ResponseEntity<>(HttpStatus.OK);
+        return new ResponseEntity<>(commentDTOList, HttpStatus.OK);
     }
 }

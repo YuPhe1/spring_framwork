@@ -131,7 +131,7 @@
     const q = '${q}';
 
     const change_limit = (limit) => {
-        location.href = "/board/list?page=" + page + "&searchType=" + searchType + "&q=" + q + "&limit=" + limit;
+        location.href = "/board/list?page=1&searchType=" + searchType + "&q=" + q + "&limit=" + limit;
     }
 
     const board_save_fn = () => {

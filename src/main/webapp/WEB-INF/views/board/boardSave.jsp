@@ -16,22 +16,22 @@
         <%@include file="../component/nav.jsp" %>
         <div class="card p-3">
             <form action="/board/save" method="post" name="boardSave" enctype="multipart/form-data">
-                <div class="input-group">
+                <div class="input-group mb-3">
                     <span class="input-group-text">제목</span>
                     <input class="form-control" type="text" name="boardTitle">
                 </div>
-                <div class="input-group">
+                <div class="input-group mb-3">
                     <span class="input-group-text">작성자</span>
                     <input class="form-control" type="text" name="boardWriter" value="${sessionScope.loginName}" readonly>
                 </div>
                 <input type="hidden" name="boardWriterId" value="${sessionScope.loginId}">
-                <div class="input-group">
+                <div class="input-group mb-3">
                     <textarea class="form-control" cols="50" rows="10" name="boardContents" placeholder="내용"></textarea>
                 </div>
-                <div class="input-group">
+                <div class="input-group mb-3">
                     <input class="form-control" type="file" name="boardFile" multiple accept="image/*"> <br>
                 </div>
-                <div class="text-center">
+                <div class="text-center mb-3">
                     <button class="btn btn-primary px-3">작성</button>
                     <button class="btn btn-secondary px-3" type="button">취소</button>
                 </div>
