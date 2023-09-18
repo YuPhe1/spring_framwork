@@ -1,3 +1,4 @@
+`
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <div id="nav" class="mb-4">
@@ -11,21 +12,6 @@
             </button>
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                    <c:if test="${sessionScope.loginEmail == null}">
-                        <li class="nav-item">
-                            <a class="nav-link active" aria-current="page" href="/member/save">회원가입</a>
-                        </li>
-                    </c:if>
-                    <li class="nav-item">
-                        <c:if test="${sessionScope.loginEmail == null}">
-                            <a class="nav-link active" aria-current="page" href="/member/login">로그인</a>
-                        </c:if>
-                    </li>
-                    <li class="nav-item">
-                        <c:if test="${sessionScope.loginEmail != null}">
-                            <a class="nav-link active" aria-current="page" href="/member/logout">로그아웃</a>
-                        </c:if>
-                    </li>
                     <li class="nav-item">
                         <c:if test="${sessionScope.loginEmail == 'admin'}">
                             <a class="nav-link active" aria-current="page" href="/member/list">회원목록</a>
@@ -33,13 +19,31 @@
                     </li>
                     <li class="nav-item">
                         <a class="nav-link active" aria-current="page" href="/board/list">게시판</a>
-                    <li class="nav-item">
-                        <c:if test="${sessionScope.loginEmail != null}">
-                            <a class="nav-link active" aria-current="page" href="/member/detail">${sessionScope.loginName}님</a>
-                        </c:if>
                     </li>
-                </ul>
+                    <c:if test="${sessionScope.loginEmail == null}">
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="/member/save">회원가입</a>
+                    </li>
+                    </c:if>
+                    <c:if test="${sessionScope.loginEmail == null}">
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="/member/login">로그인</a>
+                    </li>
+                    </c:if>
+                    <c:if test="${sessionScope.loginEmail != null}">
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="/member/logout">로그아웃</a>
+                    </li>
+                    </c:if>
+                    <c:if test="${sessionScope.loginEmail != null}">
+                    <li class="nav-item">
+                        <a class="nav-link active me-2" aria-current="page"
+                           href="/member/detail">${sessionScope.loginName}님</a>
+                    </li>
+                    </c:if>
             </div>
         </div>
+        </ul>
     </nav>
 </div>
+`
