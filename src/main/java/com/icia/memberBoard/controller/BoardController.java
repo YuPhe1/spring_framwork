@@ -30,7 +30,8 @@ public class BoardController {
     public String findAll(@RequestParam(value = "page", required = false, defaultValue = "1") int page,
                           @RequestParam(value = "searchType", required = false, defaultValue = "boardTitle") String type,
                           @RequestParam(value = "q", required = false, defaultValue = "") String q,
-                          @RequestParam(value = "limit",required = false,defaultValue = "5") int limit,
+                          @RequestParam(value = "limit", required = false, defaultValue = "5") int limit,
+                          @RequestParam(value = "order", required = false, defaultValue = "id") String order,
                           Model model) {
         // 검색이든 아니든 핑요한 정보: boardList, paging
         List<BoardDTO> boardDTOList = null;
@@ -38,11 +39,11 @@ public class BoardController {
         // 검색 요쳥인지 아닌지 구분
         if (q.equals("")) {
             // 일반 페이지 요청
-            boardDTOList = boardService.pagingList(page, limit);
+            boardDTOList = boardService.pagingList(page, limit, order);
             pageDTO = boardService.pageNumber(page, limit);
         } else {
             // 검색결과 페이지 요청
-            boardDTOList = boardService.searchList(type, q, page, limit);
+            boardDTOList = boardService.searchList(type, q, page, limit, order);
             pageDTO = boardService.searchPageNumber(q, type, page, limit);
         }
         model.addAttribute("boardList", boardDTOList);
@@ -50,6 +51,7 @@ public class BoardController {
         model.addAttribute("q", q);
         model.addAttribute("type", type);
         model.addAttribute("limit", limit);
+        model.addAttribute("order", order);
         return "board/boardList";
     }
 
@@ -70,7 +72,8 @@ public class BoardController {
                          @RequestParam(value = "page", required = false, defaultValue = "1") int page,
                          @RequestParam(value = "searchType", required = false, defaultValue = "boardTitle") String type,
                          @RequestParam(value = "q", required = false, defaultValue = "") String q,
-                         @RequestParam(value = "limit",required = false,defaultValue = "5") int limit,
+                         @RequestParam(value = "limit", required = false, defaultValue = "5") int limit,
+                         @RequestParam(value = "order", required = false, defaultValue = "id") String order,
                          HttpServletResponse response, HttpServletRequest request) {
         Cookie[] cookies = request.getCookies();
         boolean isHit = false;
@@ -96,7 +99,7 @@ public class BoardController {
         model.addAttribute("q", q);
         model.addAttribute("type", type);
         model.addAttribute("limit", limit);
-
+        model.addAttribute("order", order);
         model.addAttribute("commentList", commentService.findAll(id));
         return "board/boardDetail";
     }

@@ -13,7 +13,7 @@
     </insert>
     <select id="search" parameterType="HashMap" resultType="board">
         select id, boardWriter, boardTitle, date_format(createdAt, "%y-%m-%d %H:%i:%s") as createdAt, boardHits
-        from new_board_table where ${type} Like CONCAT('%',#{q},'%') order by id desc
+        from new_board_table where ${type} Like CONCAT('%',#{q},'%') order by ${order} desc
             limit #{start}, #{limit}
     </select>
     <select id="count" resultType="Integer">
@@ -21,7 +21,7 @@
     </select>
     <select id="pagingList" parameterType="java.util.HashMap" resultType="board">
         select id, boardWriter, boardTitle, date_format(createdAt, "%y-%m-%d %H:%i:%s") as createdAt, boardHits from new_board_table
-        order by id desc limit #{start}, #{limit}
+        order by ${order} desc limit #{start}, #{limit}
     </select>
     <select id="searchCount" parameterType="map" resultType="Integer">
         select count(id) as count from new_board_table where ${type} Like CONCAT('%',#{q},'%')

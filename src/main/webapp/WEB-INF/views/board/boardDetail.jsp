@@ -89,11 +89,12 @@
     const type = '${type}';
     const q = '${q}';
     const limit = '${limit}'
+    const order = '${order}'
     const update_fn = (id) => {
         location.href = "/board/update?id=" + id;
     }
     const list_fn = () => {
-        location.href = "/board/list?page=" + page + "&searchType=" + type + "&q=" + q + "&limit="+ limit;
+        location.href = "/board/list?page=" + page + "&searchType=" + type + "&q=" + q + "&limit="+ limit + "&order=" + order;
     }
     const delete_fn = (id) => {
         if (confirm("해당 게시글을 삭제하시겠습니까?")) {
