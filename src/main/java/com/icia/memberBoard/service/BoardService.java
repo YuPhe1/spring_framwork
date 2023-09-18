@@ -51,8 +51,8 @@ public class BoardService {
         }
     }
 
-    public List<BoardDTO> pagingList(int page) {
-        int pageLimit = 5; // 한페이지당 보여줄 글 갯수
+    public List<BoardDTO> pagingList(int page, int limit) {
+        int pageLimit = limit; // 한페이지당 보여줄 글 갯수
         int pagingStart = (page - 1) * pageLimit;
         Map<String, Integer> pageParams = new HashMap<>();
         pageParams.put("start", pagingStart);
@@ -60,8 +60,8 @@ public class BoardService {
         return boardRepository.pagingList(pageParams);
     }
 
-    public PageDTO pageNumber(int page) {
-        int pageLimit = 5; // 한페이지에 보여줄 글 갯수
+    public PageDTO pageNumber(int page, int limit) {
+        int pageLimit = limit; // 한페이지에 보여줄 글 갯수
         int blockLimit = 3; // 하단에 보여줄 페이지 번호 갯수
         // 전체 글 갯수 조회
         int boardCount = boardRepository.boardCount();
@@ -83,11 +83,11 @@ public class BoardService {
         return pageDTO;
     }
 
-    public List<BoardDTO> searchList(String type, String q, int page) {
+    public List<BoardDTO> searchList(String type, String q, int page, int limit) {
         Map<String, Object> searchParam = new HashMap<>();
         searchParam.put("type", type);
         searchParam.put("q", q);
-        int pageLimit = 5; // 한페이지당 보여줄 글 갯수
+        int pageLimit = limit; // 한페이지당 보여줄 글 갯수
         int pagingStart = (page - 1) * pageLimit;
         searchParam.put("start", pagingStart);
         searchParam.put("limit", pageLimit);
@@ -95,8 +95,8 @@ public class BoardService {
         return boardRepository.searchList(searchParam);
     }
 
-    public PageDTO searchPageNumber(String q, String type, int page) {
-        int pageLimit = 5; // 한페이지에 보여줄 글 갯수
+    public PageDTO searchPageNumber(String q, String type, int page, int limit) {
+        int pageLimit = limit; // 한페이지에 보여줄 글 갯수
         int blockLimit = 3; // 하단에 보여줄 페이지 번호 갯수
         Map<String, String> pagingParams = new HashMap<>();
         pagingParams.put("type", type);

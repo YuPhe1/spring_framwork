@@ -30,6 +30,7 @@ public class BoardController {
     public String findAll(@RequestParam(value = "page", required = false, defaultValue = "1") int page,
                           @RequestParam(value = "searchType", required = false, defaultValue = "boardTitle") String type,
                           @RequestParam(value = "q", required = false, defaultValue = "") String q,
+                          @RequestParam(value = "limit",required = false,defaultValue = "5") int limit,
                           Model model) {
         // 검색이든 아니든 핑요한 정보: boardList, paging
         List<BoardDTO> boardDTOList = null;
@@ -37,17 +38,18 @@ public class BoardController {
         // 검색 요쳥인지 아닌지 구분
         if (q.equals("")) {
             // 일반 페이지 요청
-            boardDTOList = boardService.pagingList(page);
-            pageDTO = boardService.pageNumber(page);
+            boardDTOList = boardService.pagingList(page, limit);
+            pageDTO = boardService.pageNumber(page, limit);
         } else {
             // 검색결과 페이지 요청
-            boardDTOList = boardService.searchList(type, q, page);
-            pageDTO = boardService.searchPageNumber(q, type, page);
+            boardDTOList = boardService.searchList(type, q, page, limit);
+            pageDTO = boardService.searchPageNumber(q, type, page, limit);
         }
         model.addAttribute("boardList", boardDTOList);
         model.addAttribute("paging", pageDTO);
         model.addAttribute("q", q);
         model.addAttribute("type", type);
+        model.addAttribute("limit", limit);
         return "board/boardList";
     }
 
@@ -68,6 +70,7 @@ public class BoardController {
                          @RequestParam(value = "page", required = false, defaultValue = "1") int page,
                          @RequestParam(value = "searchType", required = false, defaultValue = "boardTitle") String type,
                          @RequestParam(value = "q", required = false, defaultValue = "") String q,
+                         @RequestParam(value = "limit",required = false,defaultValue = "5") int limit,
                          HttpServletResponse response, HttpServletRequest request) {
         Cookie[] cookies = request.getCookies();
         boolean isHit = false;
@@ -92,6 +95,7 @@ public class BoardController {
         model.addAttribute("page", page);
         model.addAttribute("q", q);
         model.addAttribute("type", type);
+        model.addAttribute("limit", limit);
 
         model.addAttribute("commentList", commentService.findAll(id));
         return "board/boardDetail";
