@@ -31,7 +31,15 @@
                         </select>
                     </div>
                 </div>
-                <div class="col-6"></div>
+                <div class="col-2">
+                    <div class="input-group mb-3">
+                        <select class="form-select" name="order" onchange="change_order(this.value)">
+                            <option value="id" <c:if test="${order == 'id'}"> selected</c:if>>최신글</option>
+                            <option value="boardHits" <c:if test="${order == 'boardHits'}"> selected</c:if>>조회수순</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-4"></div>
                 <div class="col-4">
                     <div class="input-group mb-3">
                         <select class="form-select" name="searchType">
@@ -57,7 +65,7 @@
                     <tr>
                         <td>${board.id}</td>
                         <td>
-                            <a href="/board?id=${board.id}&page=${paging.page}&searchType=${type}&q=${q}&limit=${limit}">${board.boardTitle}</a>
+                            <a href="/board?id=${board.id}&page=${paging.page}&searchType=${type}&q=${q}&limit=${limit}&order=${order}">${board.boardTitle}</a>
                         </td>
                         <td>${board.boardWriter}</td>
                         <td>${board.boardHits}</td>
@@ -82,7 +90,7 @@
                     <c:otherwise>
                         <li class="page-item">
                             <a class="page-link"
-                               href="/board/list?page=${paging.page-1}&searchType=${type}&q=${q}&limit=${limit}">[이전]</a>
+                               href="/board/list?page=${paging.page-1}&searchType=${type}&q=${q}&limit=${limit}&order=${order}">[이전]</a>
                         </li>
                     </c:otherwise>
                 </c:choose>
@@ -100,7 +108,7 @@
                         <c:otherwise>
                             <li class="page-item">
                                 <a class="page-link"
-                                   href="/board/list?page=${i}&searchType=${type}&q=${q}&limit=${limit}">${i}</a>
+                                   href="/board/list?page=${i}&searchType=${type}&q=${q}&limit=${limit}&order=${order}">${i}</a>
                             </li>
                         </c:otherwise>
                     </c:choose>
@@ -115,7 +123,7 @@
                     <c:otherwise>
                         <li class="page-item">
                             <a class="page-link"
-                               href="/board/list?page=${paging.page+1}&searchType=${type}&q=${q}&limit=${limit}">[다음]</a>
+                               href="/board/list?page=${paging.page+1}&searchType=${type}&q=${q}&limit=${limit}&order=${order}">[다음]</a>
                         </li>
                     </c:otherwise>
                 </c:choose>
@@ -129,9 +137,15 @@
     const page = '${paging.page}';
     const searchType = '${type}';
     const q = '${q}';
+    const order = '${order}';
+    const limit = '${limit}';
 
     const change_limit = (limit) => {
-        location.href = "/board/list?page=1&searchType=" + searchType + "&q=" + q + "&limit=" + limit;
+        location.href = "/board/list?page=1&searchType=" + searchType + "&q=" + q + "&limit=" + limit + "&order=" + order;
+    }
+
+    const change_order = (order) => {
+        location.href = "/board/list?page=1&searchType=" + searchType + "&q=" + q + "&limit=" + limit + "&order=" + order;
     }
 
     const board_save_fn = () => {
