@@ -39,6 +39,28 @@
                     <button class="btn btn-danger px-3" onclick="delete_fn('${board.id}')">삭제</button>
                 </c:if>
             </div>
+            <hr>
+            <div>
+                <c:if test="${sessionScope.loginEmail != null}">
+                    <div class="card p-3">
+                        <div class="row">
+                            <input type="hidden" value="${board.id}" name="boardId">
+                            <input type="hidden" value="${sessionScope.loginId}" name="commentWriterId">
+                            <div class="col-3 input-group mb-3">
+                                <span class="input-group-text">작성자</span>
+                                <input class="form-control"type="text" value="${sessionScope.loginName}" readonly>
+                            </div>
+                            <div class="input-group mb-3">
+                                <textarea class="form-control" cols="3" id="comment-contents"></textarea>
+                            </div>
+                            <div class="text-end">
+                                <button class="btn btn-primary px-3" onclick="comment_write()">작성</button>
+                                <button onclick="comment_reset()" class="btn btn-secondary px-3">취소</button>
+                            </div>
+                        </div>
+                    </div>
+                </c:if>
+            </div>
         </div>
         <%@include file="../component/footer.jsp" %>
     </div>
@@ -58,6 +80,34 @@
         if(confirm("해당 게시글을 삭제하시겠습니까?")) {
             location.href = "/board/delete?id=" + id;
         }
+    }
+    const comment_write = () => {
+        const commentWriter = '${sessionScope.loginName}';
+        const commentWriterId = '${sessionScope.loginId}';
+        const commentContents = document.querySelector("#comment-contents").value;
+        const boardId = '${board.id}';
+        const result = document.querySelector("#comment-list-area");
+        $.ajax({
+            type: "post",
+            url: "/comment/save",
+            data: {
+                commentWriterId: commentWriterId,
+                commentWriter: commentWriter,
+                commentContents: commentContents,
+                boardId: boardId
+            },
+            success: function (res) {
+                document.querySelector("#comment-contents").value = "";
+
+            },
+            error: function () {
+                console.log("댓글 작성 실패")
+            }
+        })
+    }
+
+    const comment_reset = () => {
+        document.querySelector("#comment-contents").value = "";
     }
 </script>
 </html>
