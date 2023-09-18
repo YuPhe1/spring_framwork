@@ -187,7 +187,7 @@ public class BoardService {
             }
         } else {
             if(!boardDTO.getBoardFile().get(0).isEmpty()){
-                boardDTO.setFileAttached(1);boardDTO.setFileAttached(1);
+                boardDTO.setFileAttached(1);
                 List<MultipartFile> boardFileList = boardDTO.getBoardFile();
                 for (MultipartFile boardFile : boardFileList) {
                     // 파일 이름 가져오기
@@ -204,6 +204,7 @@ public class BoardService {
                     boardFile.transferTo(new File(savePath));
                     boardRepository.saveFile(boardFileDTO);
                 }
+                boardRepository.update(boardDTO);
             }
         }
     }
