@@ -20,9 +20,19 @@
 </div>
 <div class="row justify-content-center">
     <div class="col-10">
-        <div class="row justify-content-end">
-            <div class="col-4">
-                <form action="/board/list">
+        <form action="/board/list">
+            <div class="row justify-content-end">
+                <div class="col-2">
+                    <div class="input-group mb-3">
+                        <select class="form-select" name="limit" onchange="change_limit(this.value)">
+                            <option value="5" <c:if test="${limit == 5}"> selected</c:if>>5개씩</option>
+                            <option value="10" <c:if test="${limit == 10}"> selected</c:if>>10개씩</option>
+                            <option value="15" <c:if test="${limit == 15}"> selected</c:if>>15개씩</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-6"></div>
+                <div class="col-4">
                     <div class="input-group mb-3">
                         <select class="form-select" name="searchType">
                             <option value="boardTitle" selected>글제목</option>
@@ -31,9 +41,9 @@
                         <input name="q" class="form-control">&nbsp;
                         <button class="btn btn-primary">검색</button>
                     </div>
-                </form>
+                </div>
             </div>
-        </div>
+        </form>
         <div id="list" class="m-3">
             <table class='table'>
                 <tr class='table-dark'>
@@ -46,7 +56,9 @@
                 <c:forEach items="${boardList}" var="board">
                     <tr>
                         <td>${board.id}</td>
-                        <td><a href="/board?id=${board.id}&page=${paging.page}&searchType=${type}&q=${q}">${board.boardTitle}</a></td>
+                        <td>
+                            <a href="/board?id=${board.id}&page=${paging.page}&searchType=${type}&q=${q}&limit=${limit}">${board.boardTitle}</a>
+                        </td>
                         <td>${board.boardWriter}</td>
                         <td>${board.boardHits}</td>
                         <td>${board.createdAt}</td>
@@ -69,7 +81,8 @@
                     <%-- 1페이지가 아닌 경우에는 [이전]을 클릭하면 현재 페이지보다 1 작은 페이지 요청 --%>
                     <c:otherwise>
                         <li class="page-item">
-                            <a class="page-link" href="/board/list?page=${paging.page-1}&searchType=${type}&q=${q}">[이전]</a>
+                            <a class="page-link"
+                               href="/board/list?page=${paging.page-1}&searchType=${type}&q=${q}&limit=${limit}">[이전]</a>
                         </li>
                     </c:otherwise>
                 </c:choose>
@@ -86,7 +99,8 @@
 
                         <c:otherwise>
                             <li class="page-item">
-                                <a class="page-link" href="/board/list?page=${i}&searchType=${type}&q=${q}">${i}</a>
+                                <a class="page-link"
+                                   href="/board/list?page=${i}&searchType=${type}&q=${q}&limit=${limit}">${i}</a>
                             </li>
                         </c:otherwise>
                     </c:choose>
@@ -100,7 +114,8 @@
                     </c:when>
                     <c:otherwise>
                         <li class="page-item">
-                            <a class="page-link" href="/board/list?page=${paging.page+1}&searchType=${type}&q=${q}">[다음]</a>
+                            <a class="page-link"
+                               href="/board/list?page=${paging.page+1}&searchType=${type}&q=${q}&limit=${limit}">[다음]</a>
                         </li>
                     </c:otherwise>
                 </c:choose>
@@ -111,9 +126,17 @@
 </div>
 </body>
 <script>
+    const page = '${paging.page}';
+    const searchType = '${type}';
+    const q = '${q}';
+
+    const change_limit = (limit) => {
+        location.href = "/board/list?page=" + page + "&searchType=" + searchType + "&q=" + q + "&limit=" + limit;
+    }
+
     const board_save_fn = () => {
         const loginEmail = '${sessionScope.loginEmail}';
-        if(loginEmail.length == 0){
+        if (loginEmail.length == 0) {
             location.href = "/member/login?target=/board/save";
         } else {
             location.href = "/board/save";
