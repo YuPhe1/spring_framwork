@@ -2,6 +2,7 @@ package com.icia.memberBoard.controller;
 
 import com.icia.memberBoard.dto.MemberDTO;
 import com.icia.memberBoard.dto.MemberProfileDTO;
+import com.icia.memberBoard.service.BoardService;
 import com.icia.memberBoard.service.MemberService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -20,6 +21,8 @@ public class MemberController {
 
     @Autowired
     private MemberService memberService;
+    @Autowired
+    private BoardService boardService;
 
     @GetMapping("/save")
     public String save(){
@@ -107,6 +110,7 @@ public class MemberController {
     @GetMapping("/delete")
     public String delete(@RequestParam("id") Long id){
         MemberDTO memberDTO = memberService.findById(id);
+        boardService.deleteFileByWriterId(id);
         if(memberDTO.getProfileAttached() == 1){
             // 폴더에 저장되 있는 파일 삭제
             memberService.deleteProfile(id);

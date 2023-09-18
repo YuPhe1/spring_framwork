@@ -207,4 +207,19 @@ public class BoardService {
             }
         }
     }
+
+    public void deleteFileByWriterId(Long id) {
+        List<BoardDTO> boardDTOList = boardRepository.findByWriterId(id);
+        for(BoardDTO boardDTO : boardDTOList){
+            if(boardDTO.getFileAttached() == 1){
+                List<BoardFileDTO> boardFileDTOList = boardRepository.findFile(boardDTO.getId());
+                for (BoardFileDTO boardFileDTO : boardFileDTOList) {
+                    File file = new File("D:\\boardFile\\" + boardFileDTO.getStoredFileName());
+                    if (file.exists()) {
+                        file.delete();
+                    }
+                }
+            }
+        }
+    }
 }

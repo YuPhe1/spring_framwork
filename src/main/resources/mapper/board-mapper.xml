@@ -45,4 +45,7 @@
         update new_board_table set boardWriter=#{boardWriter}, boardTitle=#{boardTitle}, boardContents=#{boardContents}, fileAttached=#{fileAttached}
         where id=#{id}
     </update>
+    <select id="findByWriterId" parameterType="Long" resultType="board">
+        select * from new_board_table where boardWriterId=#{id}
+    </select>
 </mapper>

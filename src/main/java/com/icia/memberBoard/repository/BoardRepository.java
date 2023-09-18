@@ -64,4 +64,8 @@ public class BoardRepository {
     public void update(BoardDTO boardDTO) {
         sql.update("Board.update", boardDTO);
     }
+
+    public List<BoardDTO> findByWriterId(Long id) {
+        return sql.selectList("Board.findByWriterId", id);
+    }
 }
