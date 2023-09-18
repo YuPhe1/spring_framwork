@@ -3,6 +3,7 @@ package com.icia.memberBoard.controller;
 import com.icia.memberBoard.dto.MemberDTO;
 import com.icia.memberBoard.dto.MemberProfileDTO;
 import com.icia.memberBoard.service.BoardService;
+import com.icia.memberBoard.service.CommentService;
 import com.icia.memberBoard.service.MemberService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -23,6 +24,8 @@ public class MemberController {
     private MemberService memberService;
     @Autowired
     private BoardService boardService;
+    @Autowired
+    private CommentService commentService;
 
     @GetMapping("/save")
     public String save(){
@@ -104,6 +107,7 @@ public class MemberController {
     public String update(@ModelAttribute MemberDTO memberDTO, HttpSession session) throws Exception{
         memberService.update(memberDTO);
         boardService.updateWriter(memberDTO.getId(), memberDTO.getMemberName());
+        commentService.updateWriter(memberDTO.getId(), memberDTO.getMemberName());
         session.setAttribute("loginName", memberDTO.getMemberName());
         return "redirect:/member/detail";
     }

@@ -5,7 +5,9 @@ import com.icia.memberBoard.repository.CommentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class CommentService {
@@ -20,5 +22,12 @@ public class CommentService {
     public List<CommentDTO> findAll(Long boardId) {
         return commentRepository.findAll(boardId);
 
+    }
+
+    public void updateWriter(Long id, String memberName) {
+        Map<String, Object> parameter = new HashMap<>();
+        parameter.put("writerId", id);
+        parameter.put("writer", memberName);
+        commentRepository.updateWriter(parameter);
     }
 }

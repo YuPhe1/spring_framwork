@@ -48,7 +48,7 @@
     <select id="findByWriterId" parameterType="Long" resultType="board">
         select * from new_board_table where boardWriterId=#{id}
     </select>
-    <update id="updateWriter">
+    <update id="updateWriter" parameterType="HashMap">
         update new_board_table set boardWriter=#{writer} where boardWriterId=#{writerId}
     </update>
 </mapper>

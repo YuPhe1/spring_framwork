@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Map;
 
 @Repository
 public class CommentRepository {
@@ -19,5 +20,9 @@ public class CommentRepository {
 
     public List<CommentDTO> findAll(Long boardId) {
         return sql.selectList("Comment.findAll", boardId);
+    }
+
+    public void updateWriter(Map<String, Object> parameter) {
+        sql.update("Comment.updateWriter", parameter);
     }
 }
