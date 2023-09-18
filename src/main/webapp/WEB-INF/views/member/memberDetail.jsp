@@ -24,7 +24,7 @@
                              width="180px">
                     </c:if>
                     <c:if test="${member.profileAttached == 0}">
-                        <img src="https://via.placeholder.com/100x100" alt="" width="180px">
+                        <img src="https://via.placeholder.com/100x100" alt="" width="90%">
                     </c:if>
                 </div>
                 <div class="col-10">

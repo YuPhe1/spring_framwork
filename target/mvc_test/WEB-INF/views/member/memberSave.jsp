@@ -18,28 +18,30 @@
             <form action="/member/save" method="post" name="memberSave" enctype="multipart/form-data">
                 <div class="row">
                     <div class="col-2 text-center mb-3">
-                        <img src="https://via.placeholder.com/100x100" alt="" width="180px" id="profile-image">
+                        <img src="https://via.placeholder.com/100x100" alt="" width="90%" id="profile-image">
                     </div>
                     <div class="col-10">
-                        <div class="input-group mb-3">
+                        <div class="input-group">
                             <span class="input-group-text">이메일</span>
                             <input class="form-control" type="text" id="memberEmail" name="memberEmail"
                                    onkeyup="check_false()">
                             <button class="btn btn-secondary" type="button" onclick="check_email()">중복체크</button>
                         </div>
-                        <div id="check-email-aria"></div>
-                        <div class="input-group mb-3">
+                        <div id="check-email-aria" class="mb-3"></div>
+                        <div class="input-group">
                             <span class="input-group-text">비밀번호</span>
-                            <input class="form-control" type="password" name="memberPassword">
+                            <input class="form-control" type="password" name="memberPassword" onkeyup="check_password(this.value)">
                         </div>
+                        <div id="check-password-aria" class="mb-3"></div>
                         <div class="input-group mb-3">
                             <span class="input-group-text">이름</span>
                             <input class="form-control" type="text" name="memberName">
                         </div>
-                        <div class="input-group mb-3">
+                        <div class="input-group">
                             <span class="input-group-text">휴대폰</span>
-                            <input class="form-control" type="text" name="memberMobile" placeholder="010-0000-0000">
+                            <input class="form-control" type="text" name="memberMobile" placeholder="010-0000-0000" onkeyup="check_mobile(this.value)">
                         </div>
+                        <div id="check-mobile-aria" class="mb-3"></div>
                         <input type="file" id="profile" name="memberProfile" accept="image/*" style="display:none;">
                     </div>
                     <div class="text-center">
@@ -55,6 +57,38 @@
 </body>
 <script>
     let checkEmail = false;
+
+    const passwordReg = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@#$!%*?&])[A-Za-z\d@#$!%*?&]{8,15}$/;
+    let checkPassword = false;
+    let checkPasswordArea = document.querySelector("#check-password-aria");
+
+    const mobileReg = /^(010)-\d{3,4}-\d{4}$/;
+    let checkMobileArea = document.querySelector("#check-mobile-aria");
+    let checkMobile = false;
+
+    const check_mobile = (mobile) => {
+        if(!mobileReg.test(mobile)){
+            checkMobileArea.innerHTML = "휴대폰은 010-0000-0000 형식입니다.";
+            checkMobileArea.style.color = "red";
+            checkMobile = false;
+        } else {
+            checkMobileArea.innerHTML = "올바른 형식입니다.";
+            checkMobileArea.style.color = "green";
+            checkMobile = true;
+        }
+    };
+
+    const check_password = (password) => {
+        if(!passwordReg.test(password)){
+            checkPasswordArea.innerHTML = "비밀번호는 8~15글자이며, 숫자, 영어, 특수문자를 포함해야 됩니다.";
+            checkPasswordArea.style.color = "red";
+            checkPassword = false;
+        } else {
+            checkPasswordArea.innerHTML = "올바른 비밀번호 입니다.";
+            checkPasswordArea.style.color = "green";
+            checkPassword = true;
+        }
+    };
     const checkEmailAria = document.getElementById("check-email-aria");
     document.getElementById("profile-image").addEventListener("click", () => {
         document.getElementById("profile").click();
@@ -97,8 +131,8 @@
         if (!checkEmail) {
             alert("이메일을 확인해 주세요")
             this.memberEmail.focus();
-        } else if (password.value == "") {
-            alert("비밀번호를 입력해주새요")
+        } else if (!checkPassword) {
+            alert("비밀번호를 확인해 주세요")
             password.focus();
         } else if (name.value == "") {
             alert("이름을 입력해주새요")

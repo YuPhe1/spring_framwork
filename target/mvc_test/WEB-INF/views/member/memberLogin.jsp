@@ -15,19 +15,21 @@
         <%@include file="../component/header.jsp" %>
         <%@include file="../component/nav.jsp" %>
         <div class="card p-3">
-            <div class="input-group mb-3">
-                <span class="input-group-text">이메일</span>
-                <input class="form-control" type="text" id="memberEmail">
-            </div>
-            <div class="input-group mb-3">
-                <span class="input-group-text">비밀번호</span>
-                <input class="form-control" type="password" id="memberPassword">
-            </div>
-            <div id="login-aria"></div>
-            <div class="text-center">
-                <button class="btn btn-primary px-3" onclick="login()">로그인</button>
-                <button class="btn btn-secondary px-3" onclick="cancel_fn()">취소</button>
-            </div>
+            <form name="login">
+                <div class="input-group mb-3">
+                    <span class="input-group-text">이메일</span>
+                    <input class="form-control" type="text" id="memberEmail">
+                </div>
+                <div class="input-group mb-3">
+                    <span class="input-group-text">비밀번호</span>
+                    <input class="form-control" type="password" id="memberPassword">
+                </div>
+                <div id="login-aria"></div>
+                <div class="text-center">
+                    <button class="btn btn-primary px-3">로그인</button>
+                    <button class="btn btn-secondary px-3" onclick="cancel_fn()">취소</button>
+                </div>
+            </form>
         </div>
         <%@include file="../component/footer.jsp" %>
     </div>
@@ -35,7 +37,8 @@
 </body>
 <script>
     const target = '${target}';
-    const login = () => {
+    document.login.addEventListener("submit", (e) => {
+        e.preventDefault();
         const login_aria = document.getElementById("login-aria");
         const email = document.getElementById("memberEmail").value;
         const password = document.getElementById("memberPassword").value;
@@ -65,7 +68,7 @@
                 }
             })
         }
-    }
+    });
 
     const cancel_fn = () => {
         location.href = "/";

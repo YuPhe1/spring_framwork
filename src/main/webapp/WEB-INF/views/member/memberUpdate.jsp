@@ -26,7 +26,7 @@
                                  id="profile-image">
                         </c:if>
                         <c:if test="${member.profileAttached == 0}">
-                            <img src="https://via.placeholder.com/100x100" alt="" width="180px"
+                            <img src="https://via.placeholder.com/100x100" alt="" width="90%"
                                  id="profile-image">
                         </c:if>
                     </div>
@@ -47,7 +47,7 @@
                         </div>
                         <div class="input-group mb-3">
                             <span class="input-group-text">휴대폰</span>
-                            <input type="text" class="form-control" name="memberMobile" value="${member.memberMobile}"
+                            <input type="text" id="mobile" class="form-control" name="memberMobile" value="${member.memberMobile}"
                                    placeholder="010-0000-0000">
                         </div>
                         <input type="hidden" name="profileAttached" value="${member.profileAttached}"
@@ -76,10 +76,14 @@
         e.preventDefault();
         const loginPassword = '${member.memberPassword}';
         const password = document.getElementById("member-password").value;
-        if (loginPassword == password) {
-            document.memberUpdate.submit();
-        } else {
+        const mobileReg = /^(010)-\d{3,4}-\d{4}$/;
+        const mobile = document.getElementById("mobile").value;
+        if (loginPassword != password) {
             alert("비밀번호가 틀렸습니다.");
+        } else if(!mobileReg.test(mobile)){
+            alert("휴대폰 번호의 형식은 010-0000-0000 입니다.")
+        } else {
+            document.memberUpdate.submit();
         }
     })
     document.getElementById("profile").addEventListener("change", (e) => {
