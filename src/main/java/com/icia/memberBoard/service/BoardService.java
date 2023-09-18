@@ -149,8 +149,6 @@ public class BoardService {
 
     public void update(BoardDTO boardDTO, List<String> deleteFileName) throws IOException {
         List<BoardFileDTO> boardFileDTOList = boardRepository.findFile(boardDTO.getId());
-        System.out.println("deleteFileName = " + deleteFileName);
-        System.out.println(boardFileDTOList.size() == deleteFileName.size());
         if (deleteFileName != null) {
             if (boardFileDTOList.size() == deleteFileName.size() && boardDTO.getBoardFile().get(0).isEmpty()) {
                 boardDTO.setFileAttached(0);
