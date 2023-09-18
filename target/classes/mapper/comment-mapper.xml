@@ -3,5 +3,8 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="Comment">
-
+    <insert id="save" parameterType="comment">
+        insert into new_comment_table(commentWriterId, commentWriter, commentContents, boardId)
+        values (#{commentWriterId}, #{commentWriter}, #{commentContents}, #{boardId})
+    </insert>
 </mapper>
