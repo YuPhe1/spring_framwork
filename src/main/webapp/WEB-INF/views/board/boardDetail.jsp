@@ -74,6 +74,11 @@
                                 작성자: ${comment.commentWriter} 작성일: ${comment.createdAt}
                                 <hr>
                                     ${comment.commentContents}
+                                <c:if test="${sessionScope.loginId == comment.commentWriterId || sessionScope.loginEmail == 'admin'}">
+                                    <div class="text-end">
+                                        <button class="btn btn-sm btn-danger" onclick="comment_delete_fn('${comment.id}')">삭제</button>
+                                    </div>
+                                </c:if>
                             </div>
                         </c:forEach>
                     </c:otherwise>
@@ -94,7 +99,7 @@
         location.href = "/board/update?id=" + id;
     }
     const list_fn = () => {
-        location.href = "/board/list?page=" + page + "&searchType=" + type + "&q=" + q + "&limit="+ limit + "&order=" + order;
+        location.href = "/board/list?page=" + page + "&searchType=" + type + "&q=" + q + "&limit=" + limit + "&order=" + order;
     }
     const delete_fn = (id) => {
         if (confirm("해당 게시글을 삭제하시겠습니까?")) {
@@ -125,9 +130,14 @@
                     let output = "";
                     for (let i in res) {
                         output += "<div class='comment mb-3'>";
-                        output += "작성자:" + res[i].commentWriter + " 작성일:" + res[i].createdAt;
+                        output += "작성자: " + res[i].commentWriter + " 작성일:" + res[i].createdAt;
                         output += "<hr>";
                         output += res[i].commentContents;
+                        if(commentWriterId == res[i].commentWriterId || '${sessionScope.loginEmail}' == 'admin'){
+                            output += "<div class='text-end'>";
+                            output += "<button class='btn btn-sm btn-danger' onclick='comment_delete_fn("+ res[i].id +")'>삭제</button>"
+                            output += "</div>"
+                        }
                         output += "</div>";
                     }
                     result.innerHTML = output;
@@ -141,6 +151,36 @@
 
     const comment_reset = () => {
         document.querySelector("#comment-contents").value = "";
+    }
+
+    const comment_delete_fn = (id) => {
+      if("해당 댓글을 삭제 하시겠습니까?") {
+          const boardId = '${board.id}';
+          const result = document.querySelector("#comment-list-area");
+          $.ajax({
+              type:"post",
+              url: "/comment/delete",
+              data: {id:id, boardId:boardId},
+              success: function (res) {
+                  let output = "";
+                  for (let i in res) {
+                      output += "<div class='comment mb-3'>";
+                      output += "작성자: " + res[i].commentWriter + " 작성일:" + res[i].createdAt;
+                      output += "<hr>";
+                      output += res[i].commentContents;
+                      if('${sessionScope.loginId}' == res[i].commentWriterId || '${sessionScope.loginEmail}' == 'admin'){
+                          output += "<div class='text-end'>";
+                          output += "<button class='btn btn-sm btn-danger' onclick='comment_delete_fn("+ res[i].id +")'>삭제</button>"
+                          output += "</div>"
+                      }
+                      output += "</div>";
+                  }
+                  result.innerHTML = output;
+              }, error: function(){
+                  console.log("댓글 작성 실패")
+              }
+          })
+      }
     }
 </script>
 </html>

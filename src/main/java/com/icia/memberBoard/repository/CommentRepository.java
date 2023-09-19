@@ -25,4 +25,8 @@ public class CommentRepository {
     public void updateWriter(Map<String, Object> parameter) {
         sql.update("Comment.updateWriter", parameter);
     }
+
+    public void delete(Long id) {
+        sql.delete("Comment.delete", id);
+    }
 }

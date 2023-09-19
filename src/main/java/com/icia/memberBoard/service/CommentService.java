@@ -30,4 +30,8 @@ public class CommentService {
         parameter.put("writer", memberName);
         commentRepository.updateWriter(parameter);
     }
+
+    public void delete(Long id) {
+        commentRepository.delete(id);
+    }
 }

@@ -13,4 +13,7 @@
     <update id="updateWriter" parameterType="HashMap">
         update new_comment_table set commentWriter=#{writer} where commentWriterId=#{writerId}
     </update>
+    <delete id="delete" parameterType="Long">
+        delete from new_comment_table where id=#{id}
+    </delete>
 </mapper>
