@@ -20,6 +20,8 @@
                     <li class="nav-item">
                         <a class="nav-link active" aria-current="page" href="/board/list">게시판</a>
                     </li>
+                </ul>
+                <ul class="navbar-nav justify-content-end mb-2 mb-lg-0">
                     <c:if test="${sessionScope.loginEmail == null}">
                     <li class="nav-item">
                         <a class="nav-link active" aria-current="page" href="/member/save">회원가입</a>
