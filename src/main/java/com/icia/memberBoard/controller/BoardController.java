@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -74,7 +75,8 @@ public class BoardController {
                          @RequestParam(value = "q", required = false, defaultValue = "") String q,
                          @RequestParam(value = "limit", required = false, defaultValue = "5") int limit,
                          @RequestParam(value = "order", required = false, defaultValue = "id") String order,
-                         HttpServletResponse response, HttpServletRequest request) {
+                         HttpServletResponse response, HttpServletRequest request,
+                         HttpSession session) {
         Cookie[] cookies = request.getCookies();
         boolean isHit = false;
         for (Cookie cookie : cookies) {
@@ -100,7 +102,8 @@ public class BoardController {
         model.addAttribute("type", type);
         model.addAttribute("limit", limit);
         model.addAttribute("order", order);
-        model.addAttribute("commentList", commentService.findAll(id));
+        Long loginId = (Long) session.getAttribute("loginId");
+        model.addAttribute("commentList", commentService.findAll(id, loginId));
         return "board/boardDetail";
     }
 

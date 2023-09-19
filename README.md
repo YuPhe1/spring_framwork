@@ -37,7 +37,7 @@ create table new_board_file_table
     id               bigint primary key auto_increment,
     originalFileName varchar(100),
     storedFileName   varchar(100),
-    boardId         bigint,
+    boardId          bigint,
     constraint foreign key (boardId) references new_board_table (id) on delete cascade
 );
 
@@ -51,5 +51,16 @@ create table new_comment_table
     boardId         bigint       not null,
     constraint foreign key (commentWriterId) references new_member_table (id) on delete cascade,
     constraint foreign key (boardId) references new_board_table (id) on delete cascade
+);
+
+create table comment_like_table
+(
+    id             bigint primary key auto_increment,
+    commentLike    int default 0,
+    commentDisLike int default 0,
+    commentId      bigint not null,
+    likeId         bigint not null,
+    constraint foreign key (commentId) references new_comment_table (id) on delete cascade,
+    constraint foreign key (likeId) references new_member_table (id) on delete cascade
 );
 ```

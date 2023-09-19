@@ -8,6 +8,7 @@
             integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm"
             crossorigin="anonymous"></script>
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
 </head>
 <body>
 <div class="row justify-content-center">
@@ -74,9 +75,24 @@
                                 작성자: ${comment.commentWriter} 작성일: ${comment.createdAt}
                                 <hr>
                                     ${comment.commentContents}
+                                    ${comment.disLike}
+                                <div class="text-end mb-2" id="like">
+                                    <c:if test="${comment.like == 1}"><i class="bi bi-heart-fill" style="color: red"
+                                                                         onclick="delete_like_count('${comment.id}')"></i></c:if>
+                                    <c:if test="${comment.like == 0}"><i class="bi bi-heart" style="color: red"
+                                                                         onclick="like_count_up('${comment.id}', '${comment.disLike}')"></i></c:if>
+                                        ${comment.likeCount}&nbsp;&nbsp;
+                                    <c:if test="${comment.disLike == 1}"><i class="bi bi-heartbreak-fill"
+                                                                            onclick="delete_like_count('${comment.id}')"></i></c:if>
+                                    <c:if test="${comment.disLike == 0}"><i class="bi bi-heartbreak"
+                                                                            onclick="disLike_count_up('${comment.id}', '${comment.like}')"></i></c:if>
+                                        ${comment.disLikeCount}
+                                </div>
                                 <c:if test="${sessionScope.loginId == comment.commentWriterId || sessionScope.loginEmail == 'admin'}">
                                     <div class="text-end">
-                                        <button class="btn btn-sm btn-danger" onclick="comment_delete_fn('${comment.id}')">삭제</button>
+                                        <button class="btn btn-sm btn-danger"
+                                                onclick="comment_delete_fn('${comment.id}')">삭제
+                                        </button>
                                     </div>
                                 </c:if>
                             </div>
@@ -95,6 +111,10 @@
     const q = '${q}';
     const limit = '${limit}'
     const order = '${order}'
+    const commentWriter = '${sessionScope.loginName}';
+    const commentWriterId = '${sessionScope.loginId}';
+    const boardId = '${board.id}';
+
     const update_fn = (id) => {
         location.href = "/board/update?id=" + id;
     }
@@ -106,12 +126,41 @@
             location.href = "/board/delete?id=" + id;
         }
     }
-    const comment_write = () => {
-        const commentWriter = '${sessionScope.loginName}';
-        const commentWriterId = '${sessionScope.loginId}';
-        const commentContents = document.querySelector("#comment-contents").value;
-        const boardId = '${board.id}';
+
+    const print_comment = (res) => {
         const result = document.querySelector("#comment-list-area");
+        let output = "";
+        for (let i in res) {
+            output += "<div class='comment mb-3'>";
+            output += "작성자: " + res[i].commentWriter + " 작성일:" + res[i].createdAt;
+            output += "<hr>";
+            output += res[i].commentContents;
+            output += "<div class='text-end mb-2' id='like'>";
+            if (res[i].like == 0) {
+                output += "<i class='bi bi-heart' style='color: red' onclick=\'like_count_up(" + res[i].id + ", " + res[i].disLike + ")\'></i>"
+            } else {
+                output += "<i class='bi bi-heart-fill' style='color: red' onclick=\'delete_like_count(" + res[i].id + ")\'></i>"
+            }
+            output += "&nbsp;" + res[i].likeCount + "&nbsp;&nbsp;&nbsp;";
+            if (res[i].disLike == 0) {
+                output += "<i class='bi bi-heartbreak' onclick=\'disLike_count_up(" + res[i].id + ", " + res[i].like + ")\'></i>"
+            } else {
+                output += "<i class='bi bi-heartbreak-fill' onclick=\'delete_like_count(" + res[i].id + ")\'></i>"
+            }
+            output += "&nbsp;" + res[i].disLikeCount;
+            output += "</div>"
+            if (commentWriterId == res[i].commentWriterId || '${sessionScope.loginEmail}' == 'admin') {
+                output += "<div class='text-end'>";
+                output += "<button class='btn btn-sm btn-danger' onclick='comment_delete_fn(" + res[i].id + ")'>삭제</button>"
+                output += "</div>"
+            }
+            output += "</div>";
+        }
+        result.innerHTML = output;
+    }
+
+    const comment_write = () => {
+        const commentContents = document.querySelector("#comment-contents").value;
         if (commentContents == "") {
             alert("내용을 입력하세요");
             document.querySelector("#comment-contents").focus();
@@ -127,20 +176,7 @@
                 },
                 success: function (res) {
                     document.querySelector("#comment-contents").value = "";
-                    let output = "";
-                    for (let i in res) {
-                        output += "<div class='comment mb-3'>";
-                        output += "작성자: " + res[i].commentWriter + " 작성일:" + res[i].createdAt;
-                        output += "<hr>";
-                        output += res[i].commentContents;
-                        if(commentWriterId == res[i].commentWriterId || '${sessionScope.loginEmail}' == 'admin'){
-                            output += "<div class='text-end'>";
-                            output += "<button class='btn btn-sm btn-danger' onclick='comment_delete_fn("+ res[i].id +")'>삭제</button>"
-                            output += "</div>"
-                        }
-                        output += "</div>";
-                    }
-                    result.innerHTML = output;
+                    print_comment(res);
                 },
                 error: function () {
                     console.log("댓글 작성 실패")
@@ -154,33 +190,63 @@
     }
 
     const comment_delete_fn = (id) => {
-      if("해당 댓글을 삭제 하시겠습니까?") {
-          const boardId = '${board.id}';
-          const result = document.querySelector("#comment-list-area");
-          $.ajax({
-              type:"post",
-              url: "/comment/delete",
-              data: {id:id, boardId:boardId},
-              success: function (res) {
-                  let output = "";
-                  for (let i in res) {
-                      output += "<div class='comment mb-3'>";
-                      output += "작성자: " + res[i].commentWriter + " 작성일:" + res[i].createdAt;
-                      output += "<hr>";
-                      output += res[i].commentContents;
-                      if('${sessionScope.loginId}' == res[i].commentWriterId || '${sessionScope.loginEmail}' == 'admin'){
-                          output += "<div class='text-end'>";
-                          output += "<button class='btn btn-sm btn-danger' onclick='comment_delete_fn("+ res[i].id +")'>삭제</button>"
-                          output += "</div>"
-                      }
-                      output += "</div>";
-                  }
-                  result.innerHTML = output;
-              }, error: function(){
-                  console.log("댓글 작성 실패")
-              }
-          })
-      }
+        if ("해당 댓글을 삭제 하시겠습니까?") {
+            $.ajax({
+                type: "post",
+                url: "/comment/delete",
+                data: {id: id, boardId: boardId},
+                success: function (res) {
+                    print_comment(res);
+                }, error: function () {
+                    console.log("댓글 작성 실패")
+                }
+            })
+        }
+    }
+
+    const delete_like_count = (id) => {
+        if(commentWriterId == ""){
+            alert("로그인이 필요합니다.");
+        } else {
+            $.ajax({
+                type:"post",
+                url:"/comment/delete_like_count",
+                data:{commentId:id, boardId:boardId},
+                success: function (res){
+                    print_comment(res);
+                }
+            })
+        }
+    }
+
+    const like_count_up = (id, disLike) => {
+        if(commentWriterId == ""){
+            alert("로그인이 필요합니다.");
+        } else {
+            $.ajax({
+                type:"post",
+                url:"/comment/like-count-up",
+                data:{commentId:id, boardId:boardId, disLike:disLike},
+                success: function (res){
+                    print_comment(res);
+                }
+            })
+        }
+    }
+
+    const disLike_count_up = (id, like) => {
+        if(commentWriterId == ""){
+            alert("로그인이 필요합니다.");
+        } else {
+            $.ajax({
+                type:"post",
+                url:"/comment/disLike-count-up",
+                data:{commentId:id, boardId:boardId, like:like},
+                success: function (res){
+                    print_comment(res);
+                }
+            })
+        }
     }
 </script>
 </html>

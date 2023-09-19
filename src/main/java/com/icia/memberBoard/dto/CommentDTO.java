@@ -14,4 +14,8 @@ public class CommentDTO {
     private String commentContents;
     private String createdAt;
     private Long boardId;
+    private int likeCount;
+    private int disLikeCount;
+    private int like;
+    private int disLike;
 }

@@ -15,7 +15,7 @@ public class CommentRepository {
     private SqlSessionTemplate sql;
 
     public void save(CommentDTO commentDTO) {
-        sql.insert("Comment.save",commentDTO);
+        sql.insert("Comment.save", commentDTO);
     }
 
     public List<CommentDTO> findAll(Long boardId) {
@@ -28,5 +28,33 @@ public class CommentRepository {
 
     public void delete(Long id) {
         sql.delete("Comment.delete", id);
+    }
+
+    public int likeCount(Long id) {
+        return sql.selectOne("Comment.likeCount", id);
+    }
+
+    public int disLikeCount(Long id) {
+        return sql.selectOne("Comment.dislikeCount", id);
+    }
+
+    public int likeByMember(Map<String, Long> parameter) {
+        return sql.selectOne("Comment.likeByMember", parameter) == null ? 0 : (int) sql.selectOne("Comment.likeByMember", parameter);
+    }
+
+    public int disLikeByMember(Map<String, Long> parameter) {
+        return sql.selectOne("Comment.dislikeByMember", parameter) == null ? 0 : (int) sql.selectOne("Comment.dislikeByMember", parameter);
+    }
+
+    public void likeUp(Map<String, Object> parameters) {
+        sql.insert("Comment.likeUp", parameters);
+    }
+
+    public void deleteLikeCount(Map<String, Object> parameters) {
+        sql.delete("Comment.disLikeDown", parameters);
+    }
+
+    public void disLikeUp(Map<String, Object> parameters) {
+        sql.insert("Comment.disLikeUp", parameters);
     }
 }

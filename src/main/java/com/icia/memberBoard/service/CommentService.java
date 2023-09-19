@@ -19,9 +19,21 @@ public class CommentService {
         commentRepository.save(commentDTO);
     }
 
-    public List<CommentDTO> findAll(Long boardId) {
-        return commentRepository.findAll(boardId);
-
+    public List<CommentDTO> findAll(Long boardId, Long loginId) {
+        List<CommentDTO> commentDTOList = commentRepository.findAll(boardId);
+        boolean checkLogin = loginId == null ? false : true;
+        for (CommentDTO commentDTO : commentDTOList) {
+            commentDTO.setLikeCount(commentRepository.likeCount(commentDTO.getId()));
+            commentDTO.setDisLikeCount(commentRepository.disLikeCount(commentDTO.getId()));
+            if (checkLogin) {
+                Map<String, Long> parameter = new HashMap<>();
+                parameter.put("commentId", commentDTO.getId());
+                parameter.put("memberId", loginId);
+                commentDTO.setLike(commentRepository.likeByMember(parameter));
+                commentDTO.setDisLike(commentRepository.disLikeByMember(parameter));
+            }
+        }
+        return commentDTOList;
     }
 
     public void updateWriter(Long id, String memberName) {
@@ -33,5 +45,26 @@ public class CommentService {
 
     public void delete(Long id) {
         commentRepository.delete(id);
+    }
+
+    public void deleteLikeCount(Long commentId, Long memberId) {
+        Map<String, Object> parameters = new HashMap<>();
+        parameters.put("commentId" , commentId);
+        parameters.put("memberId", memberId);
+        commentRepository.deleteLikeCount(parameters);
+    }
+
+    public void likeUp(Long commentId, Long memberId) {
+        Map<String, Object> parameters = new HashMap<>();
+        parameters.put("commentId" , commentId);
+        parameters.put("memberId", memberId);
+        commentRepository.likeUp(parameters);
+    }
+
+    public void disLikeUp(Long commentId, Long memberId) {
+        Map<String, Object> parameters = new HashMap<>();
+        parameters.put("commentId" , commentId);
+        parameters.put("memberId", memberId);
+        commentRepository.disLikeUp(parameters);
     }
 }

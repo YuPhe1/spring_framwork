@@ -16,4 +16,25 @@
     <delete id="delete" parameterType="Long">
         delete from new_comment_table where id=#{id}
     </delete>
+    <select id="likeCount" parameterType="Long" resultType="int">
+        select count(*) from comment_like_table where commentLike=1 and commentId=#{id}
+    </select>
+    <select id="dislikeCount" parameterType="Long" resultType="int">
+        select count(*) from comment_like_table where commentDisLike=1 and commentId=#{id}
+    </select>
+    <select id="likeByMember" parameterType="HashMap" resultType="int">
+        select commentLike from comment_like_table where commentId=#{commentId} and memberId=#{memberId}
+    </select>
+    <select id="dislikeByMember" parameterType="HashMap" resultType="int">
+        select commentDisLike from comment_like_table where commentId=#{commentId} and memberId=#{memberId}
+    </select>
+    <insert id="likeUp" parameterType="HashMap">
+        insert into comment_like_table(commentLike, commentId, memberId) values(1, #{commentId}, #{memberId})
+    </insert>
+    <insert id="disLikeUp" parameterType="HashMap">
+        insert into comment_like_table(commentDisLike, commentId, memberId) values(1, #{commentId}, #{memberId})
+    </insert>
+    <delete id="disLikeDown" parameterType="HashMap">
+        delete from comment_like_table where commentId=#{commentId} and memberId=#{memberId}
+    </delete>
 </mapper>
