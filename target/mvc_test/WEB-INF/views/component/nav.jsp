@@ -1,8 +1,7 @@
-
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <div id="nav" class="mb-4">
-    <nav class="navbar navbar-expand-lg bg-body-tertiary">
+    <nav class="navbar navbar-expand-lg" style="background-color: #e3f2fd;">
         <div class="container-fluid">
             <a class="navbar-brand" href="/">Home</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
@@ -26,8 +25,6 @@
                     <li class="nav-item">
                         <a class="nav-link active" aria-current="page" href="/member/save">회원가입</a>
                     </li>
-                    </c:if>
-                    <c:if test="${sessionScope.loginEmail == null}">
                     <li class="nav-item">
                         <a class="nav-link active" aria-current="page" href="/member/login">로그인</a>
                     </li>
@@ -36,11 +33,18 @@
                     <li class="nav-item">
                         <a class="nav-link active" aria-current="page" href="/member/logout">로그아웃</a>
                     </li>
-                    </c:if>
-                    <c:if test="${sessionScope.loginEmail != null}">
                     <li class="nav-item">
                         <a class="nav-link active me-2" aria-current="page"
                            href="/member/detail">${sessionScope.loginName}님</a>
+                    </li>
+                    <li class="nav-item">
+                        <c:if test="${sessionScope.memberProfile != nulll}">
+                            <img src="${pageContext.request.contextPath}/member_upload/${sessionScope.memberProfile}"
+                                 height="40" style="border-radius: 50%">
+                        </c:if>
+                        <c:if test="${sessionScope.memberProfile == nulll}">
+                            <img src="https://via.placeholder.com/100x100" height="40" style="border-radius: 50%">
+                        </c:if>
                     </li>
                     </c:if>
             </div>

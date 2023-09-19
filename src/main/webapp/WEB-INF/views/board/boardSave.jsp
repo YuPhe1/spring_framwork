@@ -33,7 +33,7 @@
                 </div>
                 <div class="text-center mb-3">
                     <button class="btn btn-primary px-3">작성</button>
-                    <button class="btn btn-secondary px-3" type="button">취소</button>
+                    <button class="btn btn-secondary px-3" type="button" onclick="cancel_fn()">취소</button>
                 </div>
             </form>
         </div>
@@ -56,5 +56,9 @@
             document.boardSave.submit();
         }
     });
+
+    const cancel_fn = () => {
+        location.href = "/board/list";
+    }
 </script>
 </html>

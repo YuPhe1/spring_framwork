@@ -60,6 +60,10 @@ public class MemberController {
             session.setAttribute("loginId", dto.getId());
             session.setAttribute("loginEmail", dto.getMemberEmail());
             session.setAttribute("loginName", dto.getMemberName());
+            if(dto.getProfileAttached() == 1){
+                MemberProfileDTO memberProfileDTO = memberService.findProfile(dto.getId());
+                session.setAttribute("memberProfile", memberProfileDTO.getStoredFileName());
+            }
             return new ResponseEntity<>(HttpStatus.OK);
         } else {
             return new ResponseEntity<>(HttpStatus.CONFLICT);
@@ -109,6 +113,11 @@ public class MemberController {
         boardService.updateWriter(memberDTO.getId(), memberDTO.getMemberName());
         commentService.updateWriter(memberDTO.getId(), memberDTO.getMemberName());
         session.setAttribute("loginName", memberDTO.getMemberName());
+        MemberDTO dto = memberService.login(memberDTO);
+        if(dto.getProfileAttached() == 1){
+            MemberProfileDTO memberProfileDTO = memberService.findProfile(memberDTO.getId());
+            session.setAttribute("memberProfile", memberProfileDTO.getStoredFileName());
+        }
         return "redirect:/member/detail";
     }
 
