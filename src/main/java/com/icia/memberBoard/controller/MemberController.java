@@ -123,4 +123,25 @@ public class MemberController {
         memberService.delete(id);
         return "redirect:/member/list";
     }
+
+    @GetMapping("/delete-check")
+    public String deleteCheck(Model model, HttpSession session){
+        String email = (String) session.getAttribute("loginEmail");
+        MemberDTO memberDTO = memberService.findByEmail(email);
+        model.addAttribute("member", memberDTO);
+        return "member/memberDeleteCheck";
+    }
+
+    @PostMapping("/delete-check")
+    public String deleteCheck(@RequestParam("id") Long id, HttpSession session){
+        MemberDTO memberDTO = memberService.findById(id);
+        boardService.deleteFileByWriterId(id);
+        if(memberDTO.getProfileAttached() == 1){
+            // 폴더에 저장되 있는 파일 삭제
+            memberService.deleteProfile(id);
+        }
+        memberService.delete(id);
+        session.invalidate();
+        return "redirect:/";
+    }
 }

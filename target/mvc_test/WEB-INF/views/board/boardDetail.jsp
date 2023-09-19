@@ -124,7 +124,7 @@
                     document.querySelector("#comment-contents").value = "";
                     let output = "";
                     for (let i in res) {
-                        output = "<div class='comment mb-3'>";
+                        output += "<div class='comment mb-3'>";
                         output += "작성자:" + res[i].commentWriter + " 작성일:" + res[i].createdAt;
                         output += "<hr>";
                         output += res[i].commentContents;

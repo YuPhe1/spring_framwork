@@ -36,6 +36,7 @@
                 <div class="text-center">
                     <button class="btn btn-secondary px-3" onclick="home()">홈</button>
                     <button class="btn btn-primary px-3" onclick="member_update_fn()">수정</button>
+                    <button class="btn btn-danger px-3" onclick="member_delete_fn()">탈퇴</button>
                 </div>
             </div>
         </div>
@@ -49,6 +50,9 @@
     }
     const member_update_fn = () => {
         location.href = "/member/update";
+    }
+    const member_delete_fn = () => {
+        location.href = "/member/delete-check";
     }
 
 </script>

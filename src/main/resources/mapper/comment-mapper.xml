@@ -8,7 +8,7 @@
         values (#{commentWriterId}, #{commentWriter}, #{commentContents}, #{boardId})
     </insert>
     <select id="findAll" parameterType="Long" resultType="comment">
-        select * from new_comment_table where boardId=#{boardId} order by id
+        select * from new_comment_table where boardId=#{boardId} order by id desc
     </select>
     <update id="updateWriter" parameterType="HashMap">
         update new_comment_table set commentWriter=#{writer} where commentWriterId=#{writerId}
