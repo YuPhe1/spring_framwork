@@ -21,7 +21,7 @@
             <div class="row">
                 <div class="col-6">
                     <h6 class="card-subtitle mb-2 text-body-secondary">
-                        작성자: ${board.boardWriter}
+                        작성자: <a href="/member/board-list?id=${board.boardWriterId}">${board.boardWriter}</a>
                     </h6>
                 </div>
                 <div class="col-6">

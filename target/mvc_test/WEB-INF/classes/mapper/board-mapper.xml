@@ -46,7 +46,7 @@
         where id=#{id}
     </update>
     <select id="findByWriterId" parameterType="Long" resultType="board">
-        select * from new_board_table where boardWriterId=#{id}
+        select * from new_board_table where boardWriterId=#{id} order by id desc
     </select>
     <update id="updateWriter" parameterType="HashMap">
         update new_board_table set boardWriter=#{writer} where boardWriterId=#{writerId}
