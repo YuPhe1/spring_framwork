@@ -57,4 +57,12 @@ public class CommentRepository {
     public void disLikeUp(Map<String, Object> parameters) {
         sql.insert("Comment.disLikeUp", parameters);
     }
+
+    public List<CommentDTO> pagingList(Map<String, Object> pageParams) {
+        return sql.selectList("Comment.pagingList", pageParams);
+    }
+
+    public int boardCount(Long boardId) {
+        return sql.selectOne("Comment.count", boardId);
+    }
 }

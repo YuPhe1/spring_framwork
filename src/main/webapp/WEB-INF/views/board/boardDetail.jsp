@@ -92,7 +92,6 @@
                                 </div>
                                 <hr>
                                     ${comment.commentContents}
-                                    ${comment.disLike}
                                 <div class="text-end mb-2" id="like">
                                     <c:if test="${comment.like == 1}"><i class="bi bi-heart-fill" style="color: red"
                                                                          onclick="delete_like_count('${comment.id}')"></i></c:if>
@@ -117,6 +116,58 @@
                     </c:otherwise>
                 </c:choose>
             </div>
+            <div class="container" id="paging-area">
+                <ul class="pagination justify-content-center">
+                    <c:choose>
+                        <%-- 현재 페이지가 1페이지면 이전 글자만 보여줌 --%>
+                        <c:when test="${paging.page<=1}">
+                            <li class="page-item disabled">
+                                <a class="page-link">[이전]</a>
+                            </li>
+                        </c:when>
+                        <%-- 1페이지가 아닌 경우에는 [이전]을 클릭하면 현재 페이지보다 1 작은 페이지 요청 --%>
+                        <c:otherwise>
+                            <li class="page-item">
+                                <a class="page-link"
+                                   href="#" onclick="paging('${paging.page-1}')">[이전]</a>
+                            </li>
+                        </c:otherwise>
+                    </c:choose>
+
+                    <%--  for(int i=startPage; i<=endPage; i++)      --%>
+                    <c:forEach begin="${paging.startPage}" end="${paging.endPage}" var="i" step="1">
+                        <c:choose>
+                            <%-- 요청한 페이지에 있는 경우 현재 페이지 번호는 텍스트만 보이게 --%>
+                            <c:when test="${i eq paging.page}">
+                                <li class="page-item active">
+                                    <a href="#" class="page-link">${i}</a>
+                                </li>
+                            </c:when>
+
+                            <c:otherwise>
+                                <li class="page-item">
+                                    <a class="page-link"
+                                       href="#" onclick="paging('${i}')">${i}</a>
+                                </li>
+                            </c:otherwise>
+                        </c:choose>
+                    </c:forEach>
+
+                    <c:choose>
+                        <c:when test="${paging.page>=paging.maxPage}">
+                            <li class="page-item disabled">
+                                <a class="page-link">[다음]</a>
+                            </li>
+                        </c:when>
+                        <c:otherwise>
+                            <li class="page-item">
+                                <a class="page-link"
+                                   href="#" onclick="paging('${paging.page+1}')">[다음]</a>
+                            </li>
+                        </c:otherwise>
+                    </c:choose>
+                </ul>
+            </div>
         </div>
         <%@include file="../component/footer.jsp" %>
     </div>
@@ -131,7 +182,7 @@
     const commentWriter = '${sessionScope.loginName}';
     const commentWriterId = '${sessionScope.loginId}';
     const boardId = '${board.id}';
-
+    let page2 = 1;
     const update_fn = (id) => {
         location.href = "/board/update?id=" + id;
     }
@@ -142,6 +193,51 @@
         if (confirm("해당 게시글을 삭제하시겠습니까?")) {
             location.href = "/board/delete?id=" + id;
         }
+    }
+
+    const paging_num = () => {
+        $.ajax({
+            type: "get",
+            url: "/comment/paging-number",
+            data: {page: page2, boardId: boardId},
+            success: function (res) {
+                const result = document.getElementById("paging-area");
+                let output = "<ul class=\"pagination justify-content-center\">";
+                if (res.page <= 1) {
+                    output += "<li class=\"page-item disabled\">";
+                    output += "<a class=\"page-link\">[이전]</a>";
+                    output += "</li>";
+                } else {
+                    output += "<li class=\"page-item\">";
+                    output += "<a class=\"page-link\"";
+                    output += "href=\"#\" onclick=\"paging("+ (res.page - 1) +")\">[이전]</a>";
+                    output += "</li>"
+                }
+                for(let i = res.startPage; i <= res.endPage; i++){
+                    if(i == res.page){
+                        output += "<li class=\"page-item active\">";
+                        output += "<a href=\"#\" class=\"page-link\">"+i+"</a>";
+                        output += "</li>";
+                    } else {
+                        output += "<li class=\"page-item\">";
+                        output += "<a href=\"#\" class=\"page-link\" onclick=\'paging("+ i +")\'>"+i+"</a>";
+                        output += "</li>";
+                    }
+                }
+                if (res.page >= res.maxPage){
+                    output += "<li class=\"page-item disabled\">";
+                    output += "<a class=\"page-link\">[다음]</a>";
+                    output += "</li>";
+                } else {
+                    output += "<li class=\"page-item\">";
+                    output += "<a class=\"page-link\"";
+                    output += "href=\"#\" onclick=\"paging("+ (res.page + 1) +")\">[다음]</a>";
+                    output += "</li>";
+                }
+                output += "</ul>"
+                result.innerHTML = output;
+            }
+        })
     }
 
     const print_comment = (res) => {
@@ -184,6 +280,7 @@
             alert("내용을 입력하세요");
             document.querySelector("#comment-contents").focus();
         } else {
+            page2 = 1;
             $.ajax({
                 type: "post",
                 url: "/comment/save",
@@ -191,11 +288,13 @@
                     commentWriterId: commentWriterId,
                     commentWriter: commentWriter,
                     commentContents: commentContents,
-                    boardId: boardId
+                    boardId: boardId,
+                    page:page
                 },
                 success: function (res) {
                     document.querySelector("#comment-contents").value = "";
                     print_comment(res);
+                    paging_num();
                 },
                 error: function () {
                     console.log("댓글 작성 실패")
@@ -213,9 +312,15 @@
             $.ajax({
                 type: "post",
                 url: "/comment/delete",
-                data: {id: id, boardId: boardId},
+                data: {id: id, boardId: boardId, page:page2},
                 success: function (res) {
-                    print_comment(res);
+                    console.log(res);
+                    if(res.length != 0) {
+                        print_comment(res);
+                    } else {
+                        paging(page2-1);
+                    }
+                    paging_num();
                 }, error: function () {
                     console.log("댓글 작성 실패")
                 }
@@ -230,7 +335,7 @@
             $.ajax({
                 type: "post",
                 url: "/comment/delete_like_count",
-                data: {commentId: id, boardId: boardId},
+                data: {commentId: id, boardId: boardId, page:page2},
                 success: function (res) {
                     print_comment(res);
                 }
@@ -245,7 +350,7 @@
             $.ajax({
                 type: "post",
                 url: "/comment/like-count-up",
-                data: {commentId: id, boardId: boardId, disLike: disLike},
+                data: {commentId: id, boardId: boardId, disLike: disLike, page:page2},
                 success: function (res) {
                     print_comment(res);
                 }
@@ -260,12 +365,25 @@
             $.ajax({
                 type: "post",
                 url: "/comment/disLike-count-up",
-                data: {commentId: id, boardId: boardId, like: like},
+                data: {commentId: id, boardId: boardId, like: like, page:page2},
                 success: function (res) {
                     print_comment(res);
                 }
             })
         }
+    }
+
+    const paging = (updatePage) => {
+        page2 = updatePage;
+        $.ajax({
+            type: "get",
+            url: "/comment/paging-list",
+            data: {page: page2, boardId: boardId, loginId: commentWriterId},
+            success: function (res) {
+                print_comment(res);
+                paging_num();
+            }
+        });
     }
 </script>
 </html>

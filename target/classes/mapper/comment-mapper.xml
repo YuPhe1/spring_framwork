@@ -37,4 +37,11 @@
     <delete id="disLikeDown" parameterType="HashMap">
         delete from comment_like_table where commentId=#{commentId} and memberId=#{memberId}
     </delete>
+    <select id="pagingList" parameterType="HashMap" resultType="comment">
+        select * from new_comment_table where boardId=#{boardId} order by id desc
+        limit #{start}, #{limit}
+    </select>
+    <select id="count" parameterType="Long" resultType="int">
+        select count(*) from new_comment_table where boardId=#{boardId}
+    </select>
 </mapper>

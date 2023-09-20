@@ -103,7 +103,8 @@ public class BoardController {
         model.addAttribute("limit", limit);
         model.addAttribute("order", order);
         Long loginId = (Long) session.getAttribute("loginId");
-        model.addAttribute("commentList", commentService.findAll(id, loginId));
+        model.addAttribute("commentList", commentService.pagingList(1, 10, id, loginId));
+        model.addAttribute("paging", commentService.pageNumber(1, 10, id));
         return "board/boardDetail";
     }
 
