@@ -18,8 +18,18 @@
         <div class="card p-3">
             <h5 class="card-title">${board.boardTitle}</h5>
             <hr>
-            <h6 class="card-subtitle mb-2 text-body-secondary text-end">작성자: ${board.boardWriter}
-                조회수: ${board.boardHits}</h6>
+            <div class="row">
+                <div class="col-6">
+                    <h6 class="card-subtitle mb-2 text-body-secondary">
+                        작성자: ${board.boardWriter}
+                    </h6>
+                </div>
+                <div class="col-6">
+                    <h6 class="card-subtitle mb-2 text-body-secondary text-end">
+                        조회수: ${board.boardHits}
+                    </h6>
+                </div>
+            </div>
             <p class="card-text">${board.boardContents}</p>
             <c:if test="${board.fileAttached == 1}">
                 <div class="row">
@@ -47,11 +57,11 @@
                 <c:if test="${sessionScope.loginEmail != null}">
                     <div class="card p-3 mb-3">
                         <div class="row">
-                            <input type="hidden" value="${board.id}" name="boardId">
-                            <input type="hidden" value="${sessionScope.loginId}" name="commentWriterId">
-                            <div class="col-3 input-group mb-3">
-                                <span class="input-group-text">작성자</span>
-                                <input class="form-control" type="text" value="${sessionScope.loginName}" readonly>
+                            <div class="col-3">
+                                <div class="input-group mb-3">
+                                    <span class="input-group-text">작성자</span>
+                                    <input class="form-control" type="text" value="${sessionScope.loginName}" readonly>
+                                </div>
                             </div>
                             <div class="input-group mb-3">
                                 <textarea class="form-control" cols="3" id="comment-contents"></textarea>
@@ -71,8 +81,15 @@
                     </c:when>
                     <c:otherwise>
                         <c:forEach items="${commentList}" var="comment">
-                            <div class="comment mb-3">
-                                작성자: ${comment.commentWriter} 작성일: ${comment.createdAt}
+                            <div class="comment mb-3 card p-3">
+                                <div class="row">
+                                    <div class="col-6">
+                                        작성자: ${comment.commentWriter}
+                                    </div>
+                                    <div class="col-6 text-end">
+                                        작성일: ${comment.createdAt}
+                                    </div>
+                                </div>
                                 <hr>
                                     ${comment.commentContents}
                                     ${comment.disLike}
@@ -131,9 +148,11 @@
         const result = document.querySelector("#comment-list-area");
         let output = "";
         for (let i in res) {
-            output += "<div class='comment mb-3'>";
-            output += "작성자: " + res[i].commentWriter + " 작성일:" + res[i].createdAt;
-            output += "<hr>";
+            output += "<div class='comment mb-3 card p-3'>";
+            output += "<div class='row'> <div class='col-6'>"
+            output += "작성자: " + res[i].commentWriter + "</div>"
+            output += "<div class='col-6 text-end'> 작성일: " + res[i].createdAt;
+            output += "</div></div><hr>";
             output += res[i].commentContents;
             output += "<div class='text-end mb-2' id='like'>";
             if (res[i].like == 0) {
@@ -205,14 +224,14 @@
     }
 
     const delete_like_count = (id) => {
-        if(commentWriterId == ""){
+        if (commentWriterId == "") {
             alert("로그인이 필요합니다.");
         } else {
             $.ajax({
-                type:"post",
-                url:"/comment/delete_like_count",
-                data:{commentId:id, boardId:boardId},
-                success: function (res){
+                type: "post",
+                url: "/comment/delete_like_count",
+                data: {commentId: id, boardId: boardId},
+                success: function (res) {
                     print_comment(res);
                 }
             })
@@ -220,14 +239,14 @@
     }
 
     const like_count_up = (id, disLike) => {
-        if(commentWriterId == ""){
+        if (commentWriterId == "") {
             alert("로그인이 필요합니다.");
         } else {
             $.ajax({
-                type:"post",
-                url:"/comment/like-count-up",
-                data:{commentId:id, boardId:boardId, disLike:disLike},
-                success: function (res){
+                type: "post",
+                url: "/comment/like-count-up",
+                data: {commentId: id, boardId: boardId, disLike: disLike},
+                success: function (res) {
                     print_comment(res);
                 }
             })
@@ -235,14 +254,14 @@
     }
 
     const disLike_count_up = (id, like) => {
-        if(commentWriterId == ""){
+        if (commentWriterId == "") {
             alert("로그인이 필요합니다.");
         } else {
             $.ajax({
-                type:"post",
-                url:"/comment/disLike-count-up",
-                data:{commentId:id, boardId:boardId, like:like},
-                success: function (res){
+                type: "post",
+                url: "/comment/disLike-count-up",
+                data: {commentId: id, boardId: boardId, like: like},
+                success: function (res) {
                     print_comment(res);
                 }
             })
