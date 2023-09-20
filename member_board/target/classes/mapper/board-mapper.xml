@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="Board">
+    <insert id="save" parameterType="board" useGeneratedKeys="true" keyProperty="id">
+        insert into new_board_table(boardWriter, boardWriterId, boardTitle, boardContents, fileAttached)
+        values (#{boardWriter}, #{boardWriterId}, #{boardTitle}, #{boardContents}, #{fileAttached})
+    </insert>
+    <insert id="saveFile" parameterType="boardFile">
+        insert into new_board_file_table(originalFileName, storedFileName, boardId)
+        values (#{originalFileName}, #{storedFileName}, #{boardId})
+    </insert>
+    <select id="search" parameterType="HashMap" resultType="board">
+        select id, boardWriter, boardTitle, date_format(createdAt, "%y-%m-%d %H:%i:%s") as createdAt, boardHits
+        from new_board_table where ${type} Like CONCAT('%',#{q},'%') order by ${order} desc
+            limit #{start}, #{limit}
+    </select>
+    <select id="count" resultType="Integer">
+        select count(id) from new_board_table;
+    </select>
+    <select id="pagingList" parameterType="java.util.HashMap" resultType="board">
+        select id, boardWriter, boardTitle, date_format(createdAt, "%y-%m-%d %H:%i:%s") as createdAt, boardHits from new_board_table
+        order by ${order} desc limit #{start}, #{limit}
+    </select>
+    <select id="searchCount" parameterType="map" resultType="Integer">
+        select count(id) as count from new_board_table where ${type} Like CONCAT('%',#{q},'%')
+    </select>
+    <update id="upHits" parameterType="Long">
+        update new_board_table set boardHits=boardHits+1 where id = #{id}
+    </update>
+    <select id="findById" parameterType="Long" resultType="board">
+        select * from new_board_table where id = #{id}
+    </select>
+    <select id="findFile" parameterType="Long" resultType="boardFile">
+        select * from new_board_file_table where boardId = #{boardId}
+    </select>
+    <delete id="delete" parameterType="Long">
+        delete from new_board_table where id=#{id}
+    </delete>
+    <delete id="deleteBoardFile" parameterType="boardFile">
+        delete from new_board_file_table where boardId=#{boardId} and storedFileName=#{storedFileName}
+    </delete>
+    <update id="update" parameterType="board">
+        update new_board_table set boardWriter=#{boardWriter}, boardTitle=#{boardTitle}, boardContents=#{boardContents}, fileAttached=#{fileAttached}
+        where id=#{id}
+    </update>
+    <select id="findByWriterId" parameterType="Long" resultType="board">
+        select * from new_board_table where boardWriterId=#{id} order by id desc
+    </select>
+    <update id="updateWriter" parameterType="HashMap">
+        update new_board_table set boardWriter=#{writer} where boardWriterId=#{writerId}
+    </update>
+</mapper>

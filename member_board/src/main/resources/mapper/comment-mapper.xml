@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="Comment">
+    <insert id="save" parameterType="comment">
+        insert into new_comment_table(commentWriterId, commentWriter, commentContents, boardId)
+        values (#{commentWriterId}, #{commentWriter}, #{commentContents}, #{boardId})
+    </insert>
+    <select id="findAll" parameterType="Long" resultType="comment">
+        select * from new_comment_table where boardId=#{boardId} order by id desc
+    </select>
+    <update id="updateWriter" parameterType="HashMap">
+        update new_comment_table set commentWriter=#{writer} where commentWriterId=#{writerId}
+    </update>
+    <delete id="delete" parameterType="Long">
+        delete from new_comment_table where id=#{id}
+    </delete>
+    <select id="likeCount" parameterType="Long" resultType="int">
+        select count(*) from comment_like_table where commentLike=1 and commentId=#{id}
+    </select>
+    <select id="dislikeCount" parameterType="Long" resultType="int">
+        select count(*) from comment_like_table where commentDisLike=1 and commentId=#{id}
+    </select>
+    <select id="likeByMember" parameterType="HashMap" resultType="int">
+        select commentLike from comment_like_table where commentId=#{commentId} and memberId=#{memberId}
+    </select>
+    <select id="dislikeByMember" parameterType="HashMap" resultType="int">
+        select commentDisLike from comment_like_table where commentId=#{commentId} and memberId=#{memberId}
+    </select>
+    <insert id="likeUp" parameterType="HashMap">
+        insert into comment_like_table(commentLike, commentId, memberId) values(1, #{commentId}, #{memberId})
+    </insert>
+    <insert id="disLikeUp" parameterType="HashMap">
+        insert into comment_like_table(commentDisLike, commentId, memberId) values(1, #{commentId}, #{memberId})
+    </insert>
+    <delete id="disLikeDown" parameterType="HashMap">
+        delete from comment_like_table where commentId=#{commentId} and memberId=#{memberId}
+    </delete>
+    <select id="pagingList" parameterType="HashMap" resultType="comment">
+        select * from new_comment_table where boardId=#{boardId} order by id desc
+        limit #{start}, #{limit}
+    </select>
+    <select id="count" parameterType="Long" resultType="int">
+        select count(*) from new_comment_table where boardId=#{boardId}
+    </select>
+</mapper>
