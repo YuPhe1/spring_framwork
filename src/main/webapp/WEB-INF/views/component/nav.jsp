@@ -35,7 +35,11 @@
                     </li>
                     <li class="nav-item">
                         <a class="nav-link active me-2" aria-current="page"
-                           href="/member/detail">${sessionScope.loginName}님</a>
+                           href="/member/board-list?id=${sessionScope.loginId}">작성한글</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active me-2" aria-current="page"
+                           href="/member/detail?id=${sessionScope.loginId}">${sessionScope.loginName}님</a>
                     </li>
                     <li class="nav-item">
                         <c:if test="${sessionScope.memberProfile != nulll}">

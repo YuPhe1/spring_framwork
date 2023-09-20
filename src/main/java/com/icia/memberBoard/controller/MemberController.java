@@ -1,5 +1,6 @@
 package com.icia.memberBoard.controller;
 
+import com.icia.memberBoard.dto.BoardDTO;
 import com.icia.memberBoard.dto.MemberDTO;
 import com.icia.memberBoard.dto.MemberProfileDTO;
 import com.icia.memberBoard.service.BoardService;
@@ -84,9 +85,8 @@ public class MemberController {
     }
 
     @GetMapping("/detail")
-    public String findByEmail(HttpSession session, Model model){
-        String email = (String) session.getAttribute("loginEmail");
-        MemberDTO memberDTO = memberService.findByEmail(email);
+    public String findByEmail(@RequestParam("id") Long id, Model model){
+        MemberDTO memberDTO = memberService.findById(id);
         model.addAttribute("member", memberDTO);
         if(memberDTO.getProfileAttached() == 1){
             MemberProfileDTO memberProfileDTO = memberService.findProfile(memberDTO.getId());
@@ -152,5 +152,14 @@ public class MemberController {
         memberService.delete(id);
         session.invalidate();
         return "redirect:/";
+    }
+
+    @GetMapping("/board-list")
+    public String boardList(@RequestParam("id") Long id, Model model){
+        MemberDTO memberDTO = memberService.findById(id);
+        model.addAttribute("member", memberDTO);
+        List<BoardDTO> boardDTOList = boardService.findByWriterId(id);
+        model.addAttribute("boardList", boardDTOList);
+        return "member/memberBoard";
     }
 }

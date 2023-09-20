@@ -35,8 +35,10 @@
                 </div>
                 <div class="text-center">
                     <button class="btn btn-secondary px-3" onclick="home()">홈</button>
-                    <button class="btn btn-primary px-3" onclick="member_update_fn()">수정</button>
-                    <button class="btn btn-danger px-3" onclick="member_delete_fn()">탈퇴</button>
+                    <c:if test="${sessionScope.loginId == member.id}">
+                        <button class="btn btn-primary px-3" onclick="member_update_fn()">수정</button>
+                        <button class="btn btn-danger px-3" onclick="member_delete_fn()">탈퇴</button>
+                    </c:if>
                 </div>
             </div>
         </div>

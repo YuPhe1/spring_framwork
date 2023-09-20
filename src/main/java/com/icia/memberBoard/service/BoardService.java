@@ -231,4 +231,8 @@ public class BoardService {
         parameter.put("writer", memberName);
         boardRepository.updateWriter(parameter);
     }
+
+    public List<BoardDTO> findByWriterId(Long id) {
+        return boardRepository.findByWriterId(id);
+    }
 }
